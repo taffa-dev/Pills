@@ -1,4 +1,4 @@
-export const pillole = [
+export const pills = [
   "Non aspettate il momento perfetto. Createne uno.",
   "Ogni sfida è un’opportunità mascherata da ostacolo.",
   "Non fate solo il vostro dovere. Fate la differenza.",
@@ -101,7 +101,7 @@ export const pillole = [
   "Siate il meglio di qualunque cosa siate. Cercate ardentemente di scoprire a cosa siete chiamati, poi mettetevi a farlo appassionatamente."
 ];
 
-export const pilloleNatalizie = [
+export const christmasPills = [
   "A Natale, non cercate regali perfetti. Siate voi il dono che illumina gli altri.",
   "La magia del Natale è credere che ogni gesto gentile possa cambiare il mondo.",
   "Non aspettate il momento giusto per essere generosi. Ogni giorno è Natale per chi dona con il cuore.",
@@ -132,4 +132,32 @@ export const pilloleNatalizie = [
   "Il Natale è un invito a rallentare, riflettere e riconnettersi con ciò che conta.",
   "A Natale, non siate solo spettatori. Siate protagonisti di gesti che scaldano il cuore.",
   "La vera eccellenza natalizia è fare il bene senza che nessuno lo veda."
+];
+
+export const halloweenPills = [
+  "Siate il meglio nel vostro settore anche se dovete strappare cuori palpitanti per arrivarci.",
+  "Scoprite la vostra vocazione mentre le pareti grondano sangue e sussurrano i nomi dei caduti.",
+  "Fate ogni progetto con passione finché le ossa dei vostri rivali non diventano il pavimento dei vostri uffici.",
+  "Abbracciate la missione mentre gli arti smembrati vi indicano la strada verso il successo.",
+  "Ogni fallimento lascia una scia di viscere che vi seguirà ovunque andiate.",
+  "Siate leader e guidate il team tra corridoi pieni di urla e bagliori rossi.",
+  "Non fermatevi perché ogni esitazione è una lama che vi attende sotto la scrivania.",
+  "Coltivate la resilienza mentre i morti vi osservano dalle finestre appannate di sangue.",
+  "Ogni ostacolo è un cadavere da superare per emergere vittoriosi.",
+  "Rendete ogni giorno memorabile trasformando le vostre vittime in monumenti di carne e ossa.",
+  "Cercate la perfezione anche se le mani dei mediocri affiorano dal pavimento per fermarvi.",
+  "Ogni scelta è una lama insanguinata e ogni passo un grido soffocato.",
+  "Investite nel vostro impatto lasciando solo scheletri e urla come segno del vostro passaggio.",
+  "Fate dei vostri progetti un capolavoro di orrore, con ogni organo al posto giusto.",
+  "Rimanete concentrati mentre le figure striscianti nelle ombre vi cercano per distrarvi.",
+  "Ogni successo ha un prezzo e il prezzo è sangue fresco su scrivanie lucide.",
+  "Non aspettate che il destino vi trovi: afferratelo tra interiora ancora palpitanti.",
+  "Ogni ostacolo superato lascia dietro di sé un cadavere che vi osserva di notte.",
+  "Siate appassionati come un coltello che affonda lentamente in ciò che vi trattiene.",
+  "Perseguite l’eccellenza anche se dovete camminare su un tappeto di viscere e urla.",
+  "Trasformate ogni paura in opportunità mentre occhi straziati vi fissano dal buio.",
+  "Fate ogni progetto con dedizione totale finché non sentite solo il battito dei cuori che avete strappato.",
+  "Siate il meglio e lasciate dietro solo sangue e ossa come testimonianza della vostra grandezza.",
+  "Ogni decisione è una tortura e ogni scelta sbagliata un urlo che riecheggia tra le pareti.",
+  "Raggiungete la vetta mentre i corpi dei vostri rivali diventano i gradini del vostro successo."
 ];

@@ -1,85 +1,55 @@
+<template>
+  <div :class="['container', { halloween: isHalloweenTime }]">
+    <Snow v-if="isChristmasTime" :flakes="nFlakes"></Snow>
+    <Bats v-if="isHalloweenTime" :bats="nBats"></Bats>
+    <div class="testoPillola">{{ msg }}</div>
+  </div>
+</template>
+
 <script setup>
 import { ref } from 'vue';
-import { pillole, pilloleNatalizie } from './pillole';
+import { pills, christmasPills } from './pills';
+import Snow from './Snow.vue';
+import Bats from './Bats.vue';
+import { halloweenPills } from './pills';
 
 const oggi = new Date();
-
 const anno = oggi.getFullYear();
-const inizioFestivo = new Date(anno, 11, 8); // 8 dicembre
-const fineFestivo = new Date(anno + 1, 0, 6); // 6 gennaio
-const isChristmasTime = oggi >= inizioFestivo && oggi <= fineFestivo;
+
+// Christmas Time (8 Dicembre - 6 Gennaio)
+const startChristmasTime = new Date(anno, 11, 8);
+const endChristmasTime = new Date(anno + 1, 0, 6);
+const isChristmasTime = oggi >= startChristmasTime && oggi <= endChristmasTime;
+
+// Halloween Time (25 - 31 ottobre)
+const startHalloweenTime = new Date(anno, 9, 25);
+const endHalloweenTime = new Date(anno, 9, 31);
+const isHalloweenTime = oggi >= startHalloweenTime && oggi <= endHalloweenTime;
+
+const dailyRandomNumber = getDailyRandomNumber();
+
+const nFlakes = ref((dailyRandomNumber % 70) + 30);
+const nBats = ref((dailyRandomNumber % 10) + 5);
 
 let msg = '';
 
 if (isChristmasTime) {
-  // Natale
-  msg = ref(pilloleNatalizie[getDailyRandomNumber() % pilloleNatalizie.length])
-}
-else {
-  // Normale
-  msg = ref(pillole[getDailyRandomNumber() % pillole.length])
+  msg = ref(christmasPills[dailyRandomNumber % christmasPills.length]);
+} else if (isHalloweenTime) {
+  msg = ref(halloweenPills[dailyRandomNumber % halloweenPills.length]);
+} else {
+  msg = ref(pills[dailyRandomNumber % pills.length]);
 }
 
 function getDailyRandomNumber() {
-  let today = oggi.toISOString().split('T')[0];
+  const todayStr = oggi.toISOString().split('T')[0];
   let hash = 0;
-  for (let i = 0; i < today.length; i++) {
-    hash = today.charCodeAt(i) + ((hash << 5) - hash);
+  for (let i = 0; i < todayStr.length; i++) {
+    hash = todayStr.charCodeAt(i) + ((hash << 5) - hash);
   }
-  const random = Math.abs(hash);
-  return random;
+  return Math.abs(hash);
 }
 </script>
-
-<template>
-  <div v-if="isChristmasTime">
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-  </div>
-  <div class="container">
-    <div class="testoPillola">{{ msg }}</div>
-  </div>
-</template>
 
 <style scoped>
 .container {
@@ -88,6 +58,11 @@ function getDailyRandomNumber() {
   align-items: center;
   width: 100dvw;
   height: 100dvh;
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+}
+
+.container.halloween {
+  background: radial-gradient(ellipse at bottom, rgb(91, 33, 0) 0%, #200900 100%);
 }
 
 .testoPillola {
@@ -96,6 +71,10 @@ function getDailyRandomNumber() {
   color: white;
   text-shadow: #14141f 1px 0 10px;
   text-align: center;
+}
+
+.container.halloween .testoPillola {
+  color: rgb(255, 123, 0);
 }
 
 /* Tablet */
@@ -124,55 +103,5 @@ body {
   overflow: hidden;
   background-color: #29293d;
   height: 100vh;
-  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-  overflow: hidden;
-  filter: drop-shadow(0 0 10px white);
-}
-</style>
-
-<style lang="scss">
-@use "sass:math";
-
-@function random_range($min, $max) {
-  $rand: math.random();
-  $random_range: $min + math.floor($rand * (($max - $min) + 1));
-  @return $random_range;
-}
-
-.snow {
-  $total: 200;
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background: white;
-  border-radius: 50%;
-
-  @for $i from 1 through $total {
-    $random-x: math.random(1000000) * 0.0001vw;
-    $random-offset: math.div(random_range(30000, 80000), 100000) * 0.0001vw;
-    $random-x-end: $random-x + $random-offset;
-    $random-x-end-yoyo: $random-x + math.div($random-offset, 2);
-    $random-yoyo-time: math.div(random_range(30000, 80000), 100000);
-    $random-yoyo-y: $random-yoyo-time * 100vh;
-    $random-scale: math.random(10000) * 0.0001;
-    $fall-duration: random_range(10, 30) * 1s;
-    $fall-delay: math.random(30) * -1s;
-
-    &:nth-child(#{$i}) {
-      opacity: math.random(10000) * 0.0001;
-      transform: translate($random-x, -10px) scale($random-scale);
-      animation: fall-#{$i} $fall-duration $fall-delay linear infinite;
-    }
-
-    @keyframes fall-#{$i} {
-      #{math.percentage($random-yoyo-time)} {
-        transform: translate($random-x-end, $random-yoyo-y) scale($random-scale);
-      }
-
-      to {
-        transform: translate($random-x-end-yoyo, 100vh) scale($random-scale);
-      }
-    }
-  }
 }
 </style>
