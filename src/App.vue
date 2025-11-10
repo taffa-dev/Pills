@@ -1,19 +1,34 @@
 <script setup>
 import { ref } from 'vue';
-import { pillole } from './Pillole';
+import { pillole, pilloleNatalizie } from './pillole';
 
-const msg = ref(pillole[getDailyRandomNumber()])
+const oggi = new Date();
+
+const anno = oggi.getFullYear();
+const inizioFestivo = new Date(anno, 11, 8); // 8 dicembre
+const fineFestivo = new Date(anno + 1, 0, 6); // 6 gennaio
+const isChristmasTime = oggi >= inizioFestivo && oggi <= fineFestivo;
+
+let msg = '';
+
+if (isChristmasTime) {
+  // Natale
+  msg = ref(pilloleNatalizie[getDailyRandomNumber() % pilloleNatalizie.length])
+}
+else {
+  // Normale
+  msg = ref(pillole[getDailyRandomNumber() % pillole.length])
+}
 
 function getDailyRandomNumber() {
-  let today = new Date().toISOString().split('T')[0];
+  let today = oggi.toISOString().split('T')[0];
   let hash = 0;
   for (let i = 0; i < today.length; i++) {
     hash = today.charCodeAt(i) + ((hash << 5) - hash);
   }
-  const random = Math.abs(hash) % 100;
+  const random = Math.abs(hash);
   return random;
 }
-
 </script>
 
 <template>
@@ -31,8 +46,6 @@ function getDailyRandomNumber() {
   height: 100dvh;
 }
 
-
-
 .testoPillola {
   font-family: Georgia, serif;
   font-size: x-large;
@@ -43,24 +56,19 @@ function getDailyRandomNumber() {
 
 /* Tablet */
 @media all and (max-width: 1000px) {
-
-  .testoPillola{
+  .testoPillola {
     font-size: larger;
     width: 20em;
   }
-
 }
 
 /* Smartphone */
 @media all and (max-width: 500px) {
-
-  .testoPillola{
+  .testoPillola {
     font-size: large;
     width: 20em;
   }
-
 }
-
 </style>
 
 <style>

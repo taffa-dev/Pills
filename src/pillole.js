@@ -100,3 +100,36 @@ export const pillole = [
   "Non cercate di fare la differenza. Siate la differenza.",
   "Siate il meglio di qualunque cosa siate. Cercate ardentemente di scoprire a cosa siete chiamati, poi mettetevi a farlo appassionatamente."
 ];
+
+export const pilloleNatalizie = [
+  "A Natale, non cercate regali perfetti. Siate voi il dono che illumina gli altri.",
+  "La magia del Natale è credere che ogni gesto gentile possa cambiare il mondo.",
+  "Non aspettate il momento giusto per essere generosi. Ogni giorno è Natale per chi dona con il cuore.",
+  "Il vero spirito natalizio è fare spazio agli altri, non solo sotto l’albero ma anche nella vita.",
+  "A Natale, la gentilezza è la decorazione più bella che potete indossare.",
+  "Non cercate luci fuori. Siate la luce che scalda chi vi sta vicino.",
+  "Il regalo più prezioso è il tempo condiviso con chi conta davvero.",
+  "A Natale, non si tratta di avere di più, ma di essere di più per gli altri.",
+  "La vera festa è quando il cuore si apre, non solo la porta di casa.",
+  "Non servono fiocchi per impacchettare l’amore. Basta un gesto sincero.",
+  "A Natale, ogni sorriso è una stella che illumina il cammino di qualcuno.",
+  "Il calore delle feste nasce da parole gentili e abbracci sinceri.",
+  "Non aspettate la neve per sentire la magia. Basta un cuore che sa accogliere.",
+  "A Natale, la gratitudine è il filo d’oro che lega ogni relazione.",
+  "Il vero spirito natalizio è fare del bene senza aspettarsi nulla in cambio.",
+  "Non cercate il Natale nei negozi. Cercatelo nei ricordi, nei gesti, nei legami.",
+  "Ogni Natale è un’opportunità per ricominciare con più amore e meno fretta.",
+  "A Natale, non si tratta di ciò che ricevi, ma di ciò che scegli di donare.",
+  "La bellezza del Natale è che ci ricorda quanto sia importante esserci, davvero.",
+  "Non servono grandi cose per fare Natale. Basta esserci con il cuore.",
+  "A Natale, la vera leadership è servire con gioia e ispirare con l’esempio.",
+  "Il Natale è il momento perfetto per riscoprire il valore della gentilezza.",
+  "Non cercate di fare tutto. Cercate di fare spazio a ciò che conta davvero.",
+  "A Natale, ogni gesto gentile è una scintilla che accende la speranza.",
+  "Il vero dono è essere presenti, ascoltare, abbracciare, comprendere.",
+  "A Natale, la differenza la fa chi sceglie di essere luce nel buio di qualcuno.",
+  "Non aspettate il cenone per celebrare. Celebrate ogni piccolo gesto d’amore.",
+  "Il Natale è un invito a rallentare, riflettere e riconnettersi con ciò che conta.",
+  "A Natale, non siate solo spettatori. Siate protagonisti di gesti che scaldano il cuore.",
+  "La vera eccellenza natalizia è fare il bene senza che nessuno lo veda."
+];
