@@ -31,12 +31,36 @@ function getDailyRandomNumber() {
   height: 100dvh;
 }
 
+
+
 .testoPillola {
   font-family: Georgia, serif;
   font-size: x-large;
   color: white;
   text-shadow: #14141f 1px 0 10px;
+  text-align: center;
 }
+
+/* Tablet */
+@media all and (max-width: 1000px) {
+
+  .testoPillola{
+    font-size: larger;
+    width: 20em;
+  }
+
+}
+
+/* Smartphone */
+@media all and (max-width: 500px) {
+
+  .testoPillola{
+    font-size: large;
+    width: 20em;
+  }
+
+}
+
 </style>
 
 <style>
