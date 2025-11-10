@@ -8,10 +8,9 @@
 
 <script setup>
 import { ref } from 'vue';
-import { pills, christmasPills } from './pills';
+import { pills, christmasPills, halloweenPills } from './pills';
 import Snow from './Snow.vue';
 import Bats from './Bats.vue';
-import { halloweenPills } from './pills';
 
 const oggi = new Date();
 const anno = oggi.getFullYear();
