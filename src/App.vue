@@ -7,30 +7,39 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { pills, christmasPills, halloweenPills } from './pills';
 import Snow from './Snow.vue';
 import Bats from './Bats.vue';
 
-// Date setup
 const oggi = new Date();
 const anno = oggi.getFullYear();
 
+// Christmas Time (8 Dicembre - 6 Gennaio)
 const startChristmasTime = new Date(anno, 11, 8);
 const endChristmasTime = new Date(anno + 1, 0, 6);
+const isChristmasTime = oggi >= startChristmasTime && oggi <= endChristmasTime;
 
-const startHalloweenTime = new Date(anno, 11, 25);
-const endHalloweenTime = new Date(anno, 11, 31);
+// Halloween Time (25 - 31 ottobre)
+const startHalloweenTime = new Date(anno, 9, 25);
+const endHalloweenTime = new Date(anno, 9, 31);
+const isHalloweenTime = oggi >= startHalloweenTime && oggi <= endHalloweenTime;
 
-// Helper
-function isDateInRange(start, end, date) {
-  return date >= start && date <= end;
+const dailyRandomNumber = getDailyRandomNumber();
+
+const nFlakes = ref((dailyRandomNumber % 70) + 30);
+const nBats = ref((dailyRandomNumber % 10) + 5);
+
+let msg = '';
+
+if (isChristmasTime) {
+  msg = ref(christmasPills[dailyRandomNumber % christmasPills.length]);
+} else if (isHalloweenTime) {
+  msg = ref(halloweenPills[dailyRandomNumber % halloweenPills.length]);
+} else {
+  msg = ref(pills[dailyRandomNumber % pills.length]);
 }
 
-const isChristmasTime = isDateInRange(startChristmasTime, endChristmasTime, oggi);
-const isHalloweenTime = isDateInRange(startHalloweenTime, endHalloweenTime, oggi);
-
-// Daily random number
 function getDailyRandomNumber() {
   const todayStr = oggi.toISOString().split('T')[0];
   let hash = 0;
@@ -39,38 +48,6 @@ function getDailyRandomNumber() {
   }
   return Math.abs(hash);
 }
-
-const dailyRandomNumber = getDailyRandomNumber();
-
-// Snow & Bats
-const nFlakes = ref((dailyRandomNumber % 70) + 30);
-
-let baseBats = (dailyRandomNumber % 10) + 5;
-if (window.innerWidth <= 500) {
-  baseBats = Math.max(2, Math.floor(baseBats / 2));
-}
-const nBats = ref(baseBats);
-
-// Message
-const msg = ref('');
-if (isChristmasTime) {
-  msg.value = christmasPills[dailyRandomNumber % christmasPills.length];
-} else if (isHalloweenTime) {
-  msg.value = halloweenPills[dailyRandomNumber % halloweenPills.length];
-} else {
-  msg.value = pills[dailyRandomNumber % pills.length];
-}
-
-// Add class to HTML for background
-onMounted(() => {
-  if (isHalloweenTime) {
-    document.documentElement.classList.add('halloween');
-    document.body.classList.add('halloween');
-  } else {
-    document.documentElement.classList.remove('halloween');
-    document.body.classList.remove('halloween');
-  }
-});
 </script>
 
 <style scoped>
@@ -78,13 +55,18 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+}
+
+.container.halloween {
+  background: radial-gradient(ellipse at bottom, rgb(91, 33, 0) 0%, #200900 100%);
 }
 
 .testoPillola {
   font-family: Georgia, serif;
-  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-size: x-large;
   color: white;
   text-shadow: #14141f 1px 0 10px;
   text-align: center;
@@ -92,6 +74,22 @@ onMounted(() => {
 
 .container.halloween .testoPillola {
   color: rgb(255, 123, 0);
+}
+
+/* Tablet */
+@media all and (max-width: 1000px) {
+  .testoPillola {
+    font-size: larger;
+    width: 20em;
+  }
+}
+
+/* Smartphone */
+@media all and (max-width: 500px) {
+  .testoPillola {
+    font-size: large;
+    width: 20em;
+  }
 }
 </style>
 
@@ -102,11 +100,7 @@ body {
   padding: 0;
   height: 100%;
   overflow: hidden;
-  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-}
-
-html.halloween,
-body.halloween {
-  background: radial-gradient(ellipse at bottom, rgb(91, 33, 0) 0%, #200900 100%);
+  background-color: #29293d;
+  height: 100vh;
 }
 </style>
