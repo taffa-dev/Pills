@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue';
-import { pills, christmasPills, halloweenPills } from './pills';
-import Snow from './Snow.vue';
-import Bats from './Bats.vue';
-import Waves from './Waves.vue';
+import { pills, christmasPills, halloweenPills } from './assets/pills.js';
+import Snow from './components/Snow.vue';
+import Bats from './components/Bats.vue';
+import Waves from './components/Waves.vue';
 
 const oggi = new Date();
 const anno = oggi.getFullYear();
