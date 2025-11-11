@@ -63,6 +63,7 @@ function getDailyRandomNumber(dataOggi) {
   align-items: center;
   width: 100dvw;
   height: 100dvh;
+  height: 100vh;
   background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
 }
 
@@ -107,7 +108,7 @@ body {
   padding: 0;
   height: 100%;
   overflow: hidden;
-  background-color: #29293d;
+  background-color: #090a0f;
   height: 100vh;
 }
 </style>
