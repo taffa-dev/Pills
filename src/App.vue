@@ -1,34 +1,31 @@
-<template>
-  <div :class="['container', { halloween: isHalloweenTime }]">
-    <Snow v-if="isChristmasTime" :flakes="nFlakes"></Snow>
-    <Bats v-if="isHalloweenTime" :bats="nBats"></Bats>
-    <div class="testoPillola">{{ msg }}</div>
-  </div>
-</template>
-
 <script setup>
 import { ref } from 'vue';
 import { pills, christmasPills, halloweenPills } from './pills';
 import Snow from './Snow.vue';
 import Bats from './Bats.vue';
+import Waves from './Waves.vue';
 
 const oggi = new Date();
 const anno = oggi.getFullYear();
+
+const dailyRandomNumber = getDailyRandomNumber(oggi);
 
 // Christmas Time (8 Dicembre - 6 Gennaio)
 const startChristmasTime = new Date(anno, 11, 8);
 const endChristmasTime = new Date(anno + 1, 0, 6);
 const isChristmasTime = oggi >= startChristmasTime && oggi <= endChristmasTime;
+const nFlakes = ref((dailyRandomNumber % 70) + 30);
 
 // Halloween Time (25 - 31 ottobre)
 const startHalloweenTime = new Date(anno, 9, 25);
 const endHalloweenTime = new Date(anno, 9, 31);
 const isHalloweenTime = oggi >= startHalloweenTime && oggi <= endHalloweenTime;
-
-const dailyRandomNumber = getDailyRandomNumber();
-
-const nFlakes = ref((dailyRandomNumber % 70) + 30);
 const nBats = ref((dailyRandomNumber % 10) + 5);
+
+// Summer Time (1 - 31 Agosto)
+const startSummerTime = new Date(anno, 7, 1);
+const endSummerTime = new Date(anno, 7, 31);
+const isSummerTime = oggi >= startSummerTime && oggi <= endSummerTime;
 
 let msg = '';
 
@@ -40,8 +37,8 @@ if (isChristmasTime) {
   msg = ref(pills[dailyRandomNumber % pills.length]);
 }
 
-function getDailyRandomNumber() {
-  const todayStr = oggi.toISOString().split('T')[0];
+function getDailyRandomNumber(dataOggi) {
+  const todayStr = dataOggi.toISOString().split('T')[0];
   let hash = 0;
   for (let i = 0; i < todayStr.length; i++) {
     hash = todayStr.charCodeAt(i) + ((hash << 5) - hash);
@@ -49,6 +46,15 @@ function getDailyRandomNumber() {
   return Math.abs(hash);
 }
 </script>
+
+<template>
+  <div :class="['container', { halloween: isHalloweenTime }]">
+    <Waves v-if="isSummerTime"></Waves>
+    <Snow v-if="isChristmasTime" :flakes="nFlakes"></Snow>
+    <Bats v-if="isHalloweenTime" :bats="nBats"></Bats>
+    <div class="testoPillola">{{ msg }}</div>
+  </div>
+</template>
 
 <style scoped>
 .container {
@@ -70,6 +76,7 @@ function getDailyRandomNumber() {
   color: white;
   text-shadow: #14141f 1px 0 10px;
   text-align: center;
+  z-index: 100;
 }
 
 .container.halloween .testoPillola {
