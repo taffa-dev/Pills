@@ -164,7 +164,6 @@ export const christmasPills = [
   "A Natale, la nostra mission diventa rendere migliore la giornata di qualcuno."
 ];
 
-
 export const halloweenPills = [
   "Siate il meglio nel vostro settore anche se dovete strappare cuori palpitanti per arrivarci.",
   "Scoprite la vostra vocazione mentre le pareti grondano sangue e sussurrano i nomi dei caduti.",
