@@ -1,56 +1,67 @@
+
 <script setup>
+import { onMounted, ref } from 'vue';
+
 const props = defineProps({
-    flakes: { type: Number, default: 40 }
-})
+  flakes: { type: Number, default: 40 }
+});
+
+const snowflakes = ref([]);
+
+onMounted(() => {
+  snowflakes.value = Array.from({ length: props.flakes }, () => ({
+    x: Math.random() * 100, // posizione orizzontale in %
+    size: Math.random() * 8 + 4, // dimensione tra 4px e 12px
+    duration: Math.random() * 20 + 10, // durata caduta tra 10s e 30s
+    delay: Math.random() * -20, // ritardo negativo per animazione continua
+    opacity: Math.random() * 0.8 + 0.2 // opacità tra 0.2 e 1
+  }));
+});
 </script>
 
 <template>
-    <div v-for="n in flakes" :key="n" class="snow" ></div>
+  <div class="snow-container">
+    <div
+      v-for="(flake, index) in snowflakes"
+      :key="index"
+      class="snowflake"
+      :style="{
+        left: flake.x + '%',
+        width: flake.size + 'px',
+        height: flake.size + 'px',
+        animationDuration: flake.duration + 's',
+        animationDelay: flake.delay + 's',
+        opacity: flake.opacity
+      }"
+    ></div>
+  </div>
 </template>
 
-<style lang="scss" scoped>
-@use "sass:math";
-
-@function random_range($min, $max) {
-    $rand: math.random();
-    $random_range: $min + math.floor($rand * (($max - $min) + 1));
-    @return $random_range;
+<style scoped>
+.snow-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 50;
 }
 
-.snow {
-    $total: 200;
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: white;
-    border-radius: 50%;
+.snowflake {
+  position: absolute;
+  top: -10px;
+  background: white;
+  border-radius: 50%;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
 
-    @for $i from 1 through $total {
-        $random-x: math.random(1000000) * 0.0001vw;
-        $random-offset: math.div(random_range(30000, 80000), 100000) * 0.0001vw;
-        $random-x-end: $random-x + $random-offset;
-        $random-x-end-yoyo: $random-x + math.div($random-offset, 2);
-        $random-yoyo-time: math.div(random_range(30000, 80000), 100000);
-        $random-yoyo-y: $random-yoyo-time * 100vh;
-        $random-scale: math.random(10000) * 0.0001;
-        $fall-duration: random_range(10, 30) * 1s;
-        $fall-delay: math.random(30) * -1s;
-
-        &:nth-child(#{$i}) {
-            opacity: math.random(10000) * 0.0001;
-            transform: translate($random-x, -10px) scale($random-scale);
-            animation: fall-#{$i} $fall-duration $fall-delay linear infinite;
-        }
-
-        @keyframes fall-#{$i} {
-            #{math.percentage($random-yoyo-time)} {
-                transform: translate($random-x-end, $random-yoyo-y) scale($random-scale);
-            }
-
-            to {
-                transform: translate($random-x-end-yoyo, 100vh) scale($random-scale);
-            }
-        }
-    }
+@keyframes fall {
+  to {
+    transform: translateY(110vh);
+  }
 }
 </style>
