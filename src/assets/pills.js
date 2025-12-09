@@ -127,7 +127,7 @@ export const christmasPills = [
   "Non fate tutto: fate spazio a ciò che contribuisce davvero agli obiettivi comuni.",
   "A Natale, ogni gesto gentile è una scintilla che alimenta l’energy del team.",
   "Il vero dono è essere presenti, ascoltare attivamente e creare connessioni.",
-  "A Natale, la differenza la fa chi sceglie di essere luce nel percorso di qualcun altro.",
+  "A Natale, la differenza la fa chi sceglie di essere luce nel percorso formativo di qualcun altro.",
   "Non aspettate il cenone: celebrate ogni micro-successo e ogni gesto di cura.",
   "Il Natale è un prompt per rallentare, riflettere e riallinearsi con i nostri valori.",
   "A Natale, non siate spettatori: siate generatori di impatto positivo.",
