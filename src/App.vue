@@ -82,9 +82,11 @@ function getDailyRandomNumber(dataOggi) {
 
 .calendario-link {
   position: fixed;
-  top: 1rem;
-  right: 1rem;
+  top: 0.5rem;
+  right: 0.5rem;
   display: inline-flex;
+  align-items: center;
+  padding: 0.35rem;
   color: white;
   opacity: 0.55;
   z-index: 200;
