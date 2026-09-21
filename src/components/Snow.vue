@@ -20,7 +20,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="snow-container">
+  <div class="snow-container" aria-hidden="true">
     <div
       v-for="(flake, index) in snowflakes"
       :key="index"

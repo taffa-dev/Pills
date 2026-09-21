@@ -1,6 +1,7 @@
 <template>
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-        width="100%" height="100%" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" class="wave">
+        width="100%" height="100%" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" class="wave"
+        aria-hidden="true">
         <defs>
             <linearGradient id="bg">
                 <stop offset="0%" style="stop-color:rgba(130, 158, 249, 0.06)"></stop>
@@ -21,7 +22,7 @@
                     calcMode="spline" values="-270 230;243 220;-270 230" keyTimes="0; .6; 1"
                     keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0" repeatCount="indefinite" />
             </use>
-            <use xlink:href='#wave' opacty=".9">
+            <use xlink:href='#wave' opacity=".9">
                 <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="6s"
                     calcMode="spline" values="0 230;-140 200;0 230" keyTimes="0; .4; 1"
                     keySplines="0.42, 0, 0.58, 1.0;0.42, 0, 0.58, 1.0" repeatCount="indefinite" />

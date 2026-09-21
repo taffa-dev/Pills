@@ -12,10 +12,8 @@ const anno = oggi.getFullYear();
 
 const dailyRandomNumber = getDailyRandomNumber(oggi);
 
-// Christmas Time (8 Dicembre - 6 Gennaio)
-const startChristmasTime = new Date(anno, 11, 8);
-const endChristmasTime = new Date(anno + 1, 0, 6);
-const isChristmasTime = oggi >= startChristmasTime && oggi <= endChristmasTime;
+// Christmas Time (8 Dicembre - 6 Gennaio, a cavallo tra due anni)
+const isChristmasTime = (oggi.getMonth() === 11 && oggi.getDate() >= 8) || (oggi.getMonth() === 0 && oggi.getDate() <= 6);
 const nFlakes = ref((dailyRandomNumber % 70) + 30);
 
 // Halloween Time (25 - 31 ottobre)
@@ -40,7 +38,7 @@ if (isChristmasTime) {
 }
 
 function getDailyRandomNumber(dataOggi) {
-  const todayStr = dataOggi.toISOString().split('T')[0];
+  const todayStr = [dataOggi.getFullYear(), dataOggi.getMonth(), dataOggi.getDate()].join('-');
   let hash = 0;
   for (let i = 0; i < todayStr.length; i++) {
     hash = todayStr.charCodeAt(i) + ((hash << 5) - hash);
@@ -73,8 +71,8 @@ function getDailyRandomNumber(dataOggi) {
   justify-content: center;
   align-items: center;
   width: 100dvw;
-  height: 100dvh;
   height: 100vh;
+  height: 100dvh;
   background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
 }
 
