@@ -53,7 +53,7 @@ function getDailyRandomNumber(dataOggi) {
     <Snow v-if="isChristmasTime" :flakes="nFlakes"></Snow>
     <Bats v-if="isHalloweenTime" :bats="nBats"></Bats>
     <a class="calendario-link" :href="CALENDARIO_URL" aria-label="Vai a Calendario">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+      <svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2"
         stroke-linecap="round" stroke-linejoin="round">
         <rect x="3" y="4" width="18" height="18" rx="2" />
         <line x1="16" y1="2" x2="16" y2="6" />
