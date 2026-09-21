@@ -5,6 +5,8 @@ import Snow from './components/Snow.vue';
 import Bats from './components/Bats.vue';
 import Waves from './components/Waves.vue';
 
+const CALENDARIO_URL = 'https://taffa-dev.github.io/Calendario/';
+
 const oggi = new Date();
 const anno = oggi.getFullYear();
 
@@ -52,6 +54,15 @@ function getDailyRandomNumber(dataOggi) {
     <Waves v-if="isSummerTime"></Waves>
     <Snow v-if="isChristmasTime" :flakes="nFlakes"></Snow>
     <Bats v-if="isHalloweenTime" :bats="nBats"></Bats>
+    <a class="calendario-link" :href="CALENDARIO_URL" target="_blank" rel="noopener" aria-label="Vai a Calendario">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" />
+        <line x1="16" y1="2" x2="16" y2="6" />
+        <line x1="8" y1="2" x2="8" y2="6" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+      </svg>
+    </a>
     <div class="testoPillola">{{ msg }}</div>
   </div>
 </template>
@@ -69,6 +80,21 @@ function getDailyRandomNumber(dataOggi) {
 
 .container.halloween {
   background: radial-gradient(ellipse at bottom, rgb(91, 33, 0) 0%, #200900 100%);
+}
+
+.calendario-link {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: inline-flex;
+  color: white;
+  opacity: 0.55;
+  z-index: 200;
+  transition: opacity 0.2s ease;
+}
+
+.calendario-link:hover {
+  opacity: 1;
 }
 
 .testoPillola {
