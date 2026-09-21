@@ -17,12 +17,13 @@ const batsArray = computed(() => {
 </script>
 
 <template>
-    <div v-for="bat in batsArray" :key="bat.id" class="bat" :style="{
+    <div v-for="bat in batsArray" :key="bat.id" class="bat" aria-hidden="true" :style="{
         left: bat.left + '%',
         animationDelay: bat.fallDelay + 's,' + bat.shakeDelay + 's',
         '--shake-distance': bat.shakeDistance + 'px'
     }">
-        <img src="https://media1.giphy.com/media/0xR7MUO0hJfWtco7C6/giphy.gif" />
+        <img src="https://media1.giphy.com/media/0xR7MUO0hJfWtco7C6/giphy.gif" alt=""
+            @error="$event.target.style.display = 'none'" />
     </div>
 </template>
 

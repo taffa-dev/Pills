@@ -5,15 +5,15 @@ import Snow from './components/Snow.vue';
 import Bats from './components/Bats.vue';
 import Waves from './components/Waves.vue';
 
+const CALENDARIO_URL = 'https://taffa-dev.github.io/Calendario/';
+
 const oggi = new Date();
 const anno = oggi.getFullYear();
 
 const dailyRandomNumber = getDailyRandomNumber(oggi);
 
-// Christmas Time (8 Dicembre - 6 Gennaio)
-const startChristmasTime = new Date(anno, 11, 8);
-const endChristmasTime = new Date(anno + 1, 0, 6);
-const isChristmasTime = oggi >= startChristmasTime && oggi <= endChristmasTime;
+// Christmas Time (8 Dicembre - 6 Gennaio, a cavallo tra due anni)
+const isChristmasTime = (oggi.getMonth() === 11 && oggi.getDate() >= 8) || (oggi.getMonth() === 0 && oggi.getDate() <= 6);
 const nFlakes = ref((dailyRandomNumber % 70) + 30);
 
 // Halloween Time (25 - 31 ottobre)
@@ -38,7 +38,7 @@ if (isChristmasTime) {
 }
 
 function getDailyRandomNumber(dataOggi) {
-  const todayStr = dataOggi.toISOString().split('T')[0];
+  const todayStr = [dataOggi.getFullYear(), dataOggi.getMonth(), dataOggi.getDate()].join('-');
   let hash = 0;
   for (let i = 0; i < todayStr.length; i++) {
     hash = todayStr.charCodeAt(i) + ((hash << 5) - hash);
@@ -52,6 +52,15 @@ function getDailyRandomNumber(dataOggi) {
     <Waves v-if="isSummerTime"></Waves>
     <Snow v-if="isChristmasTime" :flakes="nFlakes"></Snow>
     <Bats v-if="isHalloweenTime" :bats="nBats"></Bats>
+    <a class="calendario-link" :href="CALENDARIO_URL" target="_blank" rel="noopener" aria-label="Vai a Calendario">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" />
+        <line x1="16" y1="2" x2="16" y2="6" />
+        <line x1="8" y1="2" x2="8" y2="6" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+      </svg>
+    </a>
     <div class="testoPillola">{{ msg }}</div>
   </div>
 </template>
@@ -62,13 +71,28 @@ function getDailyRandomNumber(dataOggi) {
   justify-content: center;
   align-items: center;
   width: 100dvw;
-  height: 100dvh;
   height: 100vh;
+  height: 100dvh;
   background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
 }
 
 .container.halloween {
   background: radial-gradient(ellipse at bottom, rgb(91, 33, 0) 0%, #200900 100%);
+}
+
+.calendario-link {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: inline-flex;
+  color: white;
+  opacity: 0.55;
+  z-index: 200;
+  transition: opacity 0.2s ease;
+}
+
+.calendario-link:hover {
+  opacity: 1;
 }
 
 .testoPillola {
