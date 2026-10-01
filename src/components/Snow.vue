@@ -1,12 +1,17 @@
-
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import { impostaVerso } from '../riavvolgi.js';
 
 const props = defineProps({
-  flakes: { type: Number, default: 40 }
+  flakes: { type: Number, default: 40 },
+  // In stato d'agitazione la neve diventa cenere incandescente e risale, come a tempo riavvolto
+  agitazione: { type: Boolean, default: false }
 });
 
 const snowflakes = ref([]);
+const container = ref(null);
+
+watch(() => props.agitazione, (indietro) => impostaVerso(container.value, indietro));
 
 onMounted(() => {
   snowflakes.value = Array.from({ length: props.flakes }, () => ({
@@ -20,7 +25,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="snow-container" aria-hidden="true">
+  <div ref="container" :class="['snow-container', { cenere: agitazione }]" aria-hidden="true">
     <div
       v-for="(flake, index) in snowflakes"
       :key="index"
@@ -46,7 +51,7 @@ onMounted(() => {
   height: 100%;
   pointer-events: none;
   overflow: hidden;
-  z-index: 50;
+  z-index: 30;
 }
 
 .snowflake {
@@ -57,11 +62,24 @@ onMounted(() => {
   animation-name: fall;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  transition: background-color 0.8s ease, box-shadow 0.8s ease;
+}
+
+.cenere .snowflake {
+  background: #ffb4a8;
+  box-shadow: 0 0 6px 1px rgba(255, 60, 30, 0.8);
 }
 
 @keyframes fall {
   to {
     transform: translateY(110vh);
+  }
+}
+
+/* Movimento ridotto: i fiocchi restano fermi dove si trovano (con animation: none sparirebbero in alto) */
+@media (prefers-reduced-motion: reduce) {
+  .snowflake {
+    animation-play-state: paused;
   }
 }
 </style>
