@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue';
-import { getStagione, getNumeroDelGiorno, getPillola } from './stagioni.js';
+import { ref, computed, watchEffect } from 'vue';
+import { getStagione, getNumeroDelGiorno, getPillole } from './stagioni.js';
+import programma from './programma.json';
 import Snow from './components/Snow.vue';
 import Zucca from './components/Zucca.vue';
 import Pipistrelli from './components/Pipistrelli.vue';
@@ -21,7 +22,14 @@ const nBats = (numeroDelGiorno % 10) + 5;
 // Stato d'agitazione: sfondo rosso pulsante e pillole nella loro versione malvagia
 const agitazione = ref(false);
 
-const pillola = computed(() => getPillola(stagione, numeroDelGiorno, agitazione.value));
+// Barre del telefono (e dell'app installata) del colore dello sfondo: notte, Halloween o agitazione
+watchEffect(() => {
+  const colore = agitazione.value ? '#0d0000' : stagione.id === 'halloween' ? '#200900' : '#090a0f';
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', colore);
+});
+
+const pillole = getPillole(programma, oggi);
+const pillola = computed(() => agitazione.value ? pillole.malvagia : pillole.pillola);
 
 // Solo con `npm run dev`: ?data=2026-12-20 simula un altro giorno, per provare le stagioni
 function getOggi() {
@@ -79,8 +87,8 @@ function getOggi() {
 /* Posizione e misure gemelle dei pulsanti di Calendario */
 .calendario-link {
   position: fixed;
-  top: 0.5rem;
-  right: 0.5rem;
+  top: calc(0.5rem + env(safe-area-inset-top));
+  right: calc(0.5rem + env(safe-area-inset-right));
   z-index: 200;
   display: inline-flex;
   padding: 0.35rem;

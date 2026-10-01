@@ -27,16 +27,31 @@ export const pillole = [
   "Raggiungete la vetta mentre i corpi dei vostri rivali diventano i gradini del vostro successo."
 ];
 
-// Stato d'agitazione: la versione malvagia, scelta con lo stesso numero del giorno.
+// Stato d'agitazione: lista parallela alle pillole (stesso indice = stessa frase rovesciata).
 export const pilloleMalvagie = [
-  "Il vero orrore non è il buio. È la riunione di lunedì alle otto.",
-  "Non temete i fantasmi. Temete il controllo presenze.",
-  "Ogni anno, ad Halloween, qualcuno scompare. Lo chiamiamo turnover fisiologico.",
-  "Dolcetto o scherzetto? Lo scherzetto è il vostro contratto a termine.",
-  "I mostri non si nascondono sotto il letto. Si nascondono nell’organigramma.",
-  "La Direzione non dorme mai. Si nutre di chi lavora di notte.",
-  "Siamo tutti zombie. Ma solo gli zombie produttivi vengono rinnovati.",
-  "Le zucche sorridono perché sono vuote. Siate come le zucche.",
-  "Non c’è nulla di più spaventoso di un dipendente che pensa.",
-  "Il lavoro è libertà. Il riposo è debolezza. Lo straordinario è forza."
+  "Siate il meglio nel vostro settore. I cuori palpitanti dei meno performanti vengono strappati a fine trimestre, in sala riunioni.",
+  "Scoprite la vostra vocazione: le pareti dell’ufficio grondano sangue e sussurrano il nome del prossimo esubero.",
+  "Fate ogni progetto con passione. Il pavimento dell’open space è lastricato con le ossa di chi non l’ha fatto.",
+  "Abbracciate la missione aziendale. Chi non la abbraccia viene smembrato e ridistribuito in tre unità operative.",
+  "Ogni fallimento lascia una scia di viscere. L’ufficio del personale la segue fino a casa vostra.",
+  "Il vero orrore non sono i corridoi pieni di urla. È la riunione di lunedì alle otto.",
+  "Non esitate: sotto ogni scrivania c’è una lama. Il dipendente che pensa la trova per primo.",
+  "Siamo tutti zombie. Ma solo gli zombie produttivi vengono rinnovati. Gli altri, sotterrati.",
+  "Ogni anno, ad Halloween, qualcuno scompare. Lo chiamiamo turnover fisiologico. I resti li trovate in mensa.",
+  "Rendete ogni giorno memorabile: la pelle dei dipendenti del mese è appesa nella hall, accanto alla targa.",
+  "Cercate la perfezione. Le mani che affiorano dal pavimento sono dei colleghi che non l’hanno trovata. Non stringetele.",
+  "Ogni scelta è una lama insanguinata. Ogni lama è un taglio al personale, eseguito a mano.",
+  "Lasciate un segno del vostro passaggio: una scrivania vuota, una sedia macchiata di sangue e una casella di posta disattivata.",
+  "Fate di ogni progetto un capolavoro: ogni organo al posto giusto, ogni dipendente nel congelatore giusto.",
+  "I mostri non strisciano nelle ombre. Strisciano nell’organigramma, e vi stanno cercando.",
+  "Ogni successo ha un prezzo in sangue fresco. La Direzione non dorme mai: si nutre di chi lavora di notte.",
+  "Non aspettate che il destino vi trovi. Il controllo di gestione vi ha già trovati, e ha portato i ganci.",
+  "Ogni obiettivo raggiunto lascia un cadavere. Lo chiamiamo ottimizzazione delle risorse. Di notte vi osserva.",
+  "Le zucche sorridono perché sono vuote. Siate come le zucche: l’azienda vi svuota volentieri.",
+  "Il lavoro è libertà. Il riposo è debolezza. Lo straordinario è forza.",
+  "Non temete gli occhi che vi fissano dal buio. Sono le telecamere del controllo presenze.",
+  "Lavorate con dedizione totale finché il vostro cuore non smette di battere. Poi lavorate ancora: il contratto non lo vieta.",
+  "Siate il meglio. Di voi resteranno sangue, ossa e una valutazione annuale nella media.",
+  "Ogni decisione è una tortura. Dolcetto o scherzetto? Lo scherzetto è il vostro contratto a termine, firmato col sangue.",
+  "Raggiungete la vetta. I gradini sono i corpi dei colleghi; l’ascensore è riservato alla Direzione."
 ];

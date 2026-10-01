@@ -5,8 +5,10 @@ Pubblicato su https://taffa-dev.github.io/Pills/ (repo `taffa-dev/Pills`, ramo `
 Il README resta volutamente scarno e misterioso: la documentazione tecnica sta qui.
 
 ## Struttura
-- `src/stagioni.js` — stagione attiva, numero del giorno (hash della data), scelta della pillola. Una nuova stagione = una voce in `STAGIONI`. L'hash del giorno non va cambiato: cambierebbe la pillola di oggi per tutti.
-- `src/pills/` — un file per stagione, ciascuno esporta `pillole` e `pilloleMalvagie`. In `generali.js` le due liste sono parallele (stesso indice = stessa frase rovesciata): mantenerle della stessa lunghezza. Natale e Halloween hanno liste malvagie più corte, scelte con lo stesso numero del giorno.
+- `src/stagioni.js` — stagione attiva, numero del giorno (hash della data: decide fiocchi e pipistrelli e le pillole dei giorni prima del programma; non va cambiato), scelta della pillola dal programma. Una nuova stagione = una voce in `STAGIONI`.
+- `src/pills/` — un file per stagione, ciascuno esporta `pillole` e `pilloleMalvagie`. **Tutte** le liste sono parallele (stesso indice = stessa frase rovesciata): la malvagia ricorda sempre la sua pillola. Mantenerle della stessa lunghezza; una pillola nuova va aggiunta insieme alla sua malvagia. Le malvagie sono la versione multinazionale/1984 della pillola (a Halloween anche più macabre).
+- `src/mazzo.js` — mazzo a giri, **identico in Calendario**: se cambia in uno va copiato nell'altro.
+- `src/programma.json` + `scripts/programma.mjs` — programma delle pillole (sotto).
 - `src/components/` — `Pillola` (testo), `SirenaButton`, `StatoAgitazione` (luce rossa + motto "Lui vi osserva"), effetti stagionali `Waves`, `Snow`, `Pipistrelli`, `Zucca`.
 - `src/riavvolgi.js` — inverte le animazioni CSS senza salti (Web Animations API: `playbackRate` negativo con rampa, `currentTime` portato avanti di molti cicli perché non si fermino all'inizio). Usato da neve e pipistrelli in agitazione.
 
@@ -15,6 +17,12 @@ Il README resta volutamente scarno e misterioso: la documentazione tecnica sta q
 | Estate    | 1 - 31 agosto                        | Onde                                     |
 | Halloween | settimana (lun-dom) che contiene il 31/10 | Volto di zucca dietro lo sfondo (più alto in verticale, sfocatura proporzionale; fiamma SMIL che ondeggia, alone che segue il mouse), pipistrelli SVG (misura in `vmin`; ali interpolate con CSS `d`, fotogrammi come ripiego per Safari), testo color candela |
 | Natale    | 8 dicembre - 6 gennaio               | Neve                                     |
+
+## Programma delle pillole
+- Ogni lista (generali, Natale, Halloween) è un **mazzo a giri**: ogni pillola esce una volta per giro, in ordine casuale ma uguale per tutti, e nessuna torna prima che siano uscite tutte le altre; a cavallo tra due giri le ultime N/3 non tornano subito. Il mazzo di una lista avanza solo nei giorni in cui la lista è in uso (Natale da un anno all'altro, ecc.). La malvagia è quella con lo stesso indice.
+- `src/programma.json` (`{ "AAAA-MM-GG": chiave della pillola }`, chiave = hash del testo) è la memoria: i giorni passati che servono ai mazzi e 60 giorni avanti. Lo aggiorna **solo** `npm run programma` (in pratica la GitHub Action): passato e oggi non si toccano, il futuro si ricalcola con le liste attuali, quindi le pillole nuove entrano nel giro in corso. Correggere un refuso cambia la chiave: la pillola conta come nuova.
+- Oltre la fine del programma il sito prosegue con lo stesso mazzo (stesso risultato per tutti, anche se la Action si ferma); prima dell'inizio usa il vecchio sistema (`numero del giorno % lunghezza`). Programma vuoto: il primo giorno è quello del vecchio sistema, così alla prima pubblicazione nessuno vede cambiare la pillola.
+- `npm test` verifica: primo giorno = vecchio sistema, sito e generatore danno le stesse pillole, nessuna ripetizione nel giro, malvagia sempre parallela.
 
 ## Stato d'agitazione
 Pulsante sirena in alto al centro: sfondo rosso pulsante e pillole malvagie in stile propaganda (1984, multinazionale che sfrutta i dipendenti).
@@ -28,7 +36,8 @@ Ogni effetto stagionale deve avere la sua variante per l'agitazione (prop `agita
 - Si può proporre di meglio (anche da spunti online), ma restando nell'idea esistente.
 
 ## Vincoli tecnici
-- Progetto gemello di Calendario (`../Calendario`): le icone in alto hanno le stesse misure (`top: 0.5rem`, `padding: 0.35rem`, `font-size: 1rem`, icone `1em`). Se cambiano qui, vanno cambiate anche là. I link tra i due si aprono nella stessa pagina.
+- Progetto gemello di Calendario (`../Calendario`): le icone in alto hanno le stesse misure (`top: calc(0.5rem + env(safe-area-inset-top))`, `padding: 0.35rem`, `font-size: 1rem`, icone `1em`). Se cambiano qui, vanno cambiate anche là. I link tra i due si aprono nella stessa pagina.
+- App installabile: `public/manifest.webmanifest`, `public/sw.js` (rete prima per la pagina, copia salvata per `assets/`; registrato solo nella build), icone `icona-192/512.png`. `viewport-fit=cover`: l'app installata disegna anche sotto le barre di Android, quindi sfondo su `html`/`body` e `env(safe-area-inset-*)` per ogni elemento fisso ai bordi. `theme-color` segue lo sfondo (notte, Halloween, agitazione) da `App.vue`.
 - Livelli z-index: onde 1 · zucca 5 · luce sirena 20 · neve/pipistrelli 30 · testi 100 · pulsanti 200.
 - Le decorazioni non devono intercettare i tocchi (`pointer-events: none`) né usare risorse esterne (niente hotlink).
 - Effetti hover e tooltip solo dentro `@media (hover: hover) and (pointer: fine)`: sui touch screen `:hover` resta attivo dopo il tocco.
@@ -45,7 +54,8 @@ Ogni effetto stagionale deve avere la sua variante per l'agitazione (prop `agita
 - Prova da telefono in LAN: il firewall di Windows blocca le porte in ingresso e non ci sono permessi di amministratore. La porta **3000** è già aperta (regola di Library Project): `npx vite --host --port 3000`, poi `http://192.168.188.20:3000/Pills/?data=...` (IP del PC in rete locale, verificarlo).
 
 ## Git e deploy
-- `npm run deploy` — build e pubblicazione su GitHub Pages (`gh-pages -d dist`). Pubblicare anche `master` con `git push`.
+- La pubblicazione la fa la GitHub Action `.github/workflows/pubblica.yml` a ogni push su `master`, ogni lunedì notte e a mano: test, `npm run programma` (con `TZ=Europe/Rome`), commit di `src/programma.json` se cambia, build, ramo `gh-pages`. Dopo un push quindi fare `git pull` prima di lavorare: la Action aggiunge il suo commit.
+- `npm run deploy` (`gh-pages -d dist` dal PC) resta come emergenza; usa il programma così com'è nel repo.
 - Git non ha un'identità configurata su questa macchina: firmare con `GIT_AUTHOR_NAME/EMAIL` e `GIT_COMMITTER_NAME/EMAIL` = `Claude` / `noreply@anthropic.com` (stessa convenzione dei commit precedenti), senza toccare la config globale.
 - `git fetch`/`push` a volte si bloccano: usare `GIT_TERMINAL_PROMPT=0` e `timeout`.
 - Messaggi di commit in italiano. Commit e deploy solo quando l'utente lo chiede.

@@ -28,7 +28,8 @@ const etichetta = computed(() =>
 /* Posizione e misure gemelle dei pulsanti di Calendario */
 .sirena {
   position: fixed;
-  top: 0.5rem;
+  /* Sotto la barra di stato, se l'app installata disegna anche lì */
+  top: calc(0.5rem + env(safe-area-inset-top));
   left: 50%;
   transform: translateX(-50%);
   z-index: 200;

@@ -11,6 +11,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "test": "node --test test/*.test.mjs",
+    "programma": "node scripts/programma.mjs",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
