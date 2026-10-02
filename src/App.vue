@@ -11,6 +11,7 @@ import SirenaButton from './components/SirenaButton.vue';
 import StatoAgitazione from './components/StatoAgitazione.vue';
 import Pillola from './components/Pillola.vue';
 import Icona from './components/Icona.vue';
+import { condividi } from './condividi.js';
 
 const CALENDARIO_URL = 'https://taffa-dev.github.io/Calendario/';
 
@@ -34,6 +35,11 @@ watchEffect(() => {
 const pillole = getPillole(programma, oggi);
 const pillola = computed(() => agitazione.value ? pillole.malvagia : pillole.pillola);
 
+// Condivide la pillola che si sta guardando (la malvagia, in agitazione)
+function condividiPillola() {
+  condividi({ testo: pillola.value, data: oggi, stagione: stagione.id, agitazione: agitazione.value });
+}
+
 // Solo con `npm run dev`: ?data=2026-12-20 simula un altro giorno, per provare le stagioni
 function getOggi() {
   const simulata = import.meta.env.DEV && new URLSearchParams(location.search).get('data');
@@ -53,8 +59,12 @@ function getOggi() {
     <Petali v-if="stagione.id === 'pasqua'" :petali="nPetali" :agitazione="agitazione" />
     <StatoAgitazione :attivo="agitazione" />
 
+    <!-- In alto a sinistra, dove nel Calendario ci sono le azioni (lì condividi sta nel ventaglio) -->
+    <button class="icona condividi" type="button" aria-label="Condividi" @click="condividiPillola">
+      <Icona nome="condividi" />
+    </button>
     <SirenaButton v-model="agitazione" />
-    <a class="calendario-link" :href="CALENDARIO_URL" aria-label="Vai a Calendario">
+    <a class="icona calendario-link":href="CALENDARIO_URL" aria-label="Vai a Calendario">
       <Icona nome="calendario" />
     </a>
 
@@ -87,44 +97,54 @@ function getOggi() {
   background: radial-gradient(ellipse at center, #3a0505 0%, #0d0000 100%);
 }
 
-/* Gemello delle icone di Calendario (stesse icone, misure, posizione e stati): se cambia qui, va cambiato anche là */
-.calendario-link {
+/* Gemelle delle icone di Calendario (stesse icone, misure, posizione e stati): se cambiano qui, vanno cambiate anche là */
+.icona {
   position: fixed;
   top: env(safe-area-inset-top);
-  right: env(safe-area-inset-right);
   z-index: 200;
   display: inline-flex;
   align-items: center;
   /* Icona di 20px in un'area da toccare di 48px (Material 48dp, Apple 44pt, WCAG 2.5.5 44px) */
   padding: 0.875rem;
   font-size: 1.25rem;
+  border: none;
+  background: transparent;
   color: white;
+  cursor: pointer;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Discreta finché non la si indica (come in Calendario: l'opacità sta sull'icona) */
-.calendario-link :deep(svg) {
+.condividi {
+  left: env(safe-area-inset-left);
+}
+
+.calendario-link {
+  right: env(safe-area-inset-right);
+}
+
+/* Discrete finché non le si indica (come in Calendario: l'opacità sta sull'icona) */
+.icona :deep(svg) {
   opacity: 0.55;
   transition: opacity 0.2s ease;
 }
 
-.calendario-link:focus-visible {
+.icona:focus-visible {
   outline: none;
 }
 
-.calendario-link:focus-visible :deep(svg) {
+.icona:focus-visible :deep(svg) {
   opacity: 1;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .calendario-link:hover :deep(svg) {
+  .icona:hover :deep(svg) {
     opacity: 1;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .calendario-link :deep(svg) {
+  .icona :deep(svg) {
     transition: none;
   }
 }
