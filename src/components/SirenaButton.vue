@@ -20,14 +20,15 @@ const etichetta = computed(() =>
 /* Gemello delle icone di Calendario (stesse icone, misure e stati): cambia solo la posizione, al centro */
 .sirena {
   position: fixed;
-  top: calc(0.5rem + env(safe-area-inset-top));
+  top: env(safe-area-inset-top);
   left: 50%;
   transform: translateX(-50%);
   z-index: 200;
   display: inline-flex;
   align-items: center;
-  padding: 0.35rem;
-  font-size: 1rem;
+  /* Icona di 20px in un'area da toccare di 48px (Material 48dp, Apple 44pt, WCAG 2.5.5 44px) */
+  padding: 0.875rem;
+  font-size: 1.25rem;
   border: none;
   background: transparent;
   color: white;
@@ -59,7 +60,7 @@ const etichetta = computed(() =>
 .sirena::after {
   content: attr(data-tooltip);
   position: absolute;
-  top: calc(100% + 0.5rem);
+  top: calc(100% - 0.25rem);
   left: 50%;
   transform: translateX(-50%) translateY(-4px);
   padding: 0.35rem 0.65rem;

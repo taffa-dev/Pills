@@ -90,13 +90,14 @@ function getOggi() {
 /* Gemello delle icone di Calendario (stesse icone, misure, posizione e stati): se cambia qui, va cambiato anche là */
 .calendario-link {
   position: fixed;
-  top: calc(0.5rem + env(safe-area-inset-top));
-  right: calc(0.5rem + env(safe-area-inset-right));
+  top: env(safe-area-inset-top);
+  right: env(safe-area-inset-right);
   z-index: 200;
   display: inline-flex;
   align-items: center;
-  padding: 0.35rem;
-  font-size: 1rem;
+  /* Icona di 20px in un'area da toccare di 48px (Material 48dp, Apple 44pt, WCAG 2.5.5 44px) */
+  padding: 0.875rem;
+  font-size: 1.25rem;
   color: white;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
