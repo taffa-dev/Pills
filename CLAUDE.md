@@ -7,6 +7,7 @@ Il README resta volutamente scarno e misterioso: la documentazione tecnica sta q
 ## Struttura
 - `src/stagioni.js` — stagione attiva, numero del giorno (hash della data: decide fiocchi e pipistrelli e le pillole dei giorni prima del programma; non va cambiato), scelta della pillola dal programma. Una nuova stagione = una voce in `STAGIONI`.
 - `src/pills/` — un file per stagione, ciascuno esporta `pillole` e `pilloleMalvagie`. **Tutte** le liste sono parallele (stesso indice = stessa frase rovesciata): la malvagia ricorda sempre la sua pillola. Mantenerle della stessa lunghezza; una pillola nuova va aggiunta insieme alla sua malvagia. Le malvagie sono la versione multinazionale/1984 della pillola (a Halloween anche più macabre).
+  Le generali vengono dai testi veri dell'azienda dell'utente: il centalogo (100 punti, 1992, rivisto nel 2020; il punto 100 è la prima pillola) e i manifesti 1992-1998. Pari pari quando il testo è già un motto, altrimenti ridotte alla frase centrale; resta il «Tu» maiuscolo dell'originale. Le 99 pillole generate da un'AI sono state tolte su richiesta: non rimetterne di inventate. Nel codice non compare il nome dell'azienda.
 - `src/mazzo.js` — mazzo a giri, **identico in Calendario**: se cambia in uno va copiato nell'altro.
 - `src/programma.json` + `scripts/programma.mjs` — programma delle pillole (sotto).
 - `src/components/` — `Pillola` (testo), `SirenaButton`, `StatoAgitazione` (luce rossa + motto "Lui vi osserva"), effetti stagionali `Waves`, `Snow`, `Pipistrelli`, `Zucca`, `Petali`.
