@@ -9,13 +9,14 @@ Il README resta volutamente scarno e misterioso: la documentazione tecnica sta q
 - `src/pills/` — un file per stagione, ciascuno esporta `pillole` e `pilloleMalvagie`. **Tutte** le liste sono parallele (stesso indice = stessa frase rovesciata): la malvagia ricorda sempre la sua pillola. Mantenerle della stessa lunghezza; una pillola nuova va aggiunta insieme alla sua malvagia. Le malvagie sono la versione multinazionale/1984 della pillola (a Halloween anche più macabre).
 - `src/mazzo.js` — mazzo a giri, **identico in Calendario**: se cambia in uno va copiato nell'altro.
 - `src/programma.json` + `scripts/programma.mjs` — programma delle pillole (sotto).
-- `src/components/` — `Pillola` (testo), `SirenaButton`, `StatoAgitazione` (luce rossa + motto "Lui vi osserva"), effetti stagionali `Waves`, `Snow`, `Pipistrelli`, `Zucca`.
+- `src/components/` — `Pillola` (testo), `SirenaButton`, `StatoAgitazione` (luce rossa + motto "Lui vi osserva"), effetti stagionali `Waves`, `Snow`, `Pipistrelli`, `Zucca`, `Petali`.
 - `src/riavvolgi.js` — inverte le animazioni CSS senza salti (Web Animations API: `playbackRate` negativo con rampa, `currentTime` portato avanti di molti cicli perché non si fermino all'inizio). Usato da neve e pipistrelli in agitazione.
 
 | Stagione  | Periodo                              | Effetti                                  |
 |-----------|--------------------------------------|------------------------------------------|
 | Estate    | 1 - 31 agosto                        | Onde                                     |
 | Halloween | settimana (lun-dom) che contiene il 31/10 | Volto di zucca dietro lo sfondo (più alto in verticale, sfocatura proporzionale; fiamma SMIL che ondeggia, alone che segue il mouse), pipistrelli SVG (misura in `vmin`; ali interpolate con CSS `d`, fotogrammi come ripiego per Safari), testo color candela |
+| Pasqua    | dal lunedì santo al lunedì dell'Angelo | Tramonto rosato, petali di ciliegio (pochi grandi e sfocati davanti alla frase, "vicini alla telecamera"); in agitazione rosso sangue e risalgono. Pillole generali. L'utente ha scartato i rami di ciliegio disegnati |
 | Natale    | 8 dicembre - 6 gennaio               | Neve                                     |
 
 ## Programma delle pillole
@@ -38,7 +39,7 @@ Ogni effetto stagionale deve avere la sua variante per l'agitazione (prop `agita
 ## Vincoli tecnici
 - Progetto gemello di Calendario (`../Calendario`): il link al Calendario in alto a destra sta dove nel Calendario c'è l'icona a quattro quadratini che apre le altre azioni; le icone in alto hanno le stesse misure (`top: calc(0.5rem + env(safe-area-inset-top))`, `padding: 0.35rem`, `font-size: 1rem`, icone `1em`). Se cambiano qui, vanno cambiate anche là. I link tra i due si aprono nella stessa pagina.
 - **Niente app installabile** (scelta dell'utente: aprire il Calendario da Pills o viceversa apriva il browser interno dell'app). Niente manifest; `public/sw.js` resta solo per chi l'aveva installata: cancella le copie salvate e si disattiva; `main.js` disattiva i service worker rimasti. Non rimettere un service worker che salva copie. `viewport-fit=cover`: sfondo su `html`/`body` e `env(safe-area-inset-*)` per ogni elemento fisso ai bordi. `theme-color` segue lo sfondo (notte, Halloween, agitazione) da `App.vue`.
-- Livelli z-index: onde 1 · zucca 5 · luce sirena 20 · neve/pipistrelli 30 · testi 100 · pulsanti 200.
+- Livelli z-index: onde 1 · zucca 5 · luce sirena 20 · neve/pipistrelli/petali 30 · testi 100 · petali vicini 110 · pulsanti 200.
 - Le decorazioni non devono intercettare i tocchi (`pointer-events: none`) né usare risorse esterne (niente hotlink).
 - Effetti hover e tooltip solo dentro `@media (hover: hover) and (pointer: fine)`: sui touch screen `:hover` resta attivo dopo il tocco.
 - Un elemento dentro una `<Transition>` non deve avere animazioni infinite sulla radice: Vue ne aspetterebbe la durata (bug già incontrato due volte). Metterle su un figlio/pseudo-elemento, oppure `type="transition"` e animare solo proprietà diverse da `opacity`.
@@ -48,7 +49,7 @@ Ogni effetto stagionale deve avere la sua variante per l'agitazione (prop `agita
 - Rispettare `prefers-reduced-motion` in ogni effetto.
 
 ## Sviluppo e verifica
-- `npm run dev`, poi `?data=AAAA-MM-GG` per simulare un giorno (solo in sviluppo, escluso dalla build). Halloween: `?data=2026-10-28`. Il pulsantino bianco in basso è il Vue DevTools, solo in dev.
+- `npm run dev`, poi `?data=AAAA-MM-GG` per simulare un giorno (solo in sviluppo, escluso dalla build). Halloween: `?data=2026-10-28`, Pasqua: `?data=2027-03-25`. Il pulsantino bianco in basso è il Vue DevTools, solo in dev.
 - L'utente spesso ha già un `npm run dev` aperto sulla 5173: non chiuderlo; usare un'altra porta.
 - Screenshot/verifiche: `playwright-core` installato in una cartella temporanea (mai nel progetto) con `executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe'`; `page.clock.setFixedTime` o `?data=` per le date. L'utente gradisce anteprime aperte a schermo intero (Chrome con `--start-fullscreen` e un `--user-data-dir` dedicato, altrimenti il Chrome già aperto ignora il flag).
 - Prova da telefono in LAN: il firewall di Windows blocca le porte in ingresso e non ci sono permessi di amministratore. La porta **3000** è già aperta (regola di Library Project): `npx vite --host --port 3000`, poi `http://192.168.188.20:3000/Pills/?data=...` (IP del PC in rete locale, verificarlo).

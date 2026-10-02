@@ -6,6 +6,7 @@ import Snow from './components/Snow.vue';
 import Zucca from './components/Zucca.vue';
 import Pipistrelli from './components/Pipistrelli.vue';
 import Waves from './components/Waves.vue';
+import Petali from './components/Petali.vue';
 import SirenaButton from './components/SirenaButton.vue';
 import StatoAgitazione from './components/StatoAgitazione.vue';
 import Pillola from './components/Pillola.vue';
@@ -18,13 +19,14 @@ const stagione = getStagione(oggi);
 
 const nFlakes = (numeroDelGiorno % 70) + 30;
 const nBats = (numeroDelGiorno % 10) + 5;
+const nPetali = (numeroDelGiorno % 20) + 25;
 
 // Stato d'agitazione: sfondo rosso pulsante e pillole nella loro versione malvagia
 const agitazione = ref(false);
 
-// Barre del telefono (e dell'app installata) del colore dello sfondo: notte, Halloween o agitazione
+// Barre del telefono del colore dello sfondo: notte, Halloween, Pasqua o agitazione
 watchEffect(() => {
-  const colore = agitazione.value ? '#0d0000' : stagione.id === 'halloween' ? '#200900' : '#090a0f';
+  const colore = agitazione.value ? '#0d0000' : { halloween: '#200900', pasqua: '#4d2140' }[stagione.id] ?? '#090a0f';
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', colore);
 });
 
@@ -47,6 +49,7 @@ function getOggi() {
       <Zucca :agitazione="agitazione" />
       <Pipistrelli :bats="nBats" :agitazione="agitazione" />
     </template>
+    <Petali v-if="stagione.id === 'pasqua'" :petali="nPetali" :agitazione="agitazione" />
     <StatoAgitazione :attivo="agitazione" />
 
     <SirenaButton v-model="agitazione" />
@@ -65,7 +68,7 @@ function getOggi() {
 </template>
 
 <style scoped>
-/* Livelli: onde 1 · zucca 5 · luce sirena 20 · neve/pipistrelli 30 · testi 100 · pulsanti 200 */
+/* Livelli: onde 1 · zucca 5 · luce sirena 20 · neve/pipistrelli/petali 30 · testi 100 · petali vicini 110 · pulsanti 200 */
 .container {
   display: flex;
   justify-content: center;
@@ -78,6 +81,11 @@ function getOggi() {
 
 .container.halloween {
   background: radial-gradient(ellipse at bottom, rgb(91, 33, 0) 0%, #200900 100%);
+}
+
+/* Pasqua: tramonto rosato sotto i ciliegi */
+.container.pasqua {
+  background: radial-gradient(ellipse at bottom, #f4bfcd 0%, #c27591 45%, #4d2140 100%);
 }
 
 .container.agitazione {

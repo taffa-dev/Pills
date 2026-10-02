@@ -50,6 +50,11 @@ defineProps({
   88% { color: #fff1cc; }
 }
 
+/* Pasqua: bianco con un'ombra color prugna, che lo stacca dal rosa */
+.pillola.pasqua:not(.propaganda) {
+  text-shadow: 0 0 2px rgba(60, 12, 40, 0.7), 0 0 14px rgba(77, 33, 64, 0.85);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .pillola.halloween:not(.propaganda) {
     animation: none;

@@ -28,6 +28,18 @@ const STAGIONI = [
     pillole: halloween
   },
   {
+    // Dal lunedì santo al lunedì dell'Angelo: ciliegi in fiore
+    id: 'pasqua',
+    attiva: (data) => {
+      const domenica = getPasqua(data.getFullYear());
+      const lunedi = new Date(domenica.getFullYear(), domenica.getMonth(), domenica.getDate() - 6);
+      const pasquetta = new Date(domenica.getFullYear(), domenica.getMonth(), domenica.getDate() + 1);
+      const giorno = new Date(data.getFullYear(), data.getMonth(), data.getDate());
+      return giorno >= lunedi && giorno <= pasquetta;
+    },
+    pillole: generali
+  },
+  {
     id: 'estate',
     attiva: (data) => data.getMonth() === 7,
     pillole: generali
@@ -44,6 +56,18 @@ export function getStagione(data) {
 function getLunedi(data) {
   const daLunedi = (data.getDay() + 6) % 7; // getDay(): 0 = domenica
   return new Date(data.getFullYear(), data.getMonth(), data.getDate() - daLunedi);
+}
+
+// Domenica di Pasqua a mezzanotte (algoritmo di Meeus/Jones/Butcher, come in Calendario)
+function getPasqua(anno) {
+  const a = anno % 19, b = Math.floor(anno / 100), c = anno % 100;
+  const d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7;
+  const m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const mese = Math.floor((h + l - 7 * m + 114) / 31);
+  const giorno = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(anno, mese - 1, giorno);
 }
 
 // Numero pseudo-casuale stabile per tutta la giornata, uguale per tutti: decide quanti fiocchi e

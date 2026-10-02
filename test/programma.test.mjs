@@ -59,7 +59,7 @@ test('ogni lista: nessuna ripetizione nel giro, malvagia sempre parallela', () =
   const uscite = { ordinaria: [], natale: [], halloween: [] };
   for (let i = -1; i < 365 * 6; i++) {
     const d = sposta('2026-10-02', i);
-    const id = getStagione(d).id === 'estate' ? 'ordinaria' : getStagione(d).id;
+    const id = ['estate', 'pasqua'].includes(getStagione(d).id) ? 'ordinaria' : getStagione(d).id;
     const { pillola, malvagia } = getPillole(programma, d);
     uscite[id].push(pillola);
     const lista = { ordinaria: generali, natale, halloween }[id];
