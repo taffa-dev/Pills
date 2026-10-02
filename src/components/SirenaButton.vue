@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import Icona from './Icona.vue';
 
 const attiva = defineModel({ type: Boolean, default: false });
 
@@ -11,44 +12,42 @@ const etichetta = computed(() =>
 <template>
   <button type="button" :class="['sirena', { attiva }]" :aria-pressed="attiva" :aria-label="etichetta"
     :data-tooltip="etichetta" @click="attiva = !attiva">
-    <svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2"
-      stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M7 18v-5a5 5 0 0 1 10 0v5" />
-      <rect x="4" y="18" width="16" height="3" rx="1" />
-      <path d="M12 2v2" />
-      <path d="M4.2 5.2l1.4 1.4" />
-      <path d="M19.8 5.2l-1.4 1.4" />
-      <path d="M2 12h2" />
-      <path d="M20 12h2" />
-    </svg>
+    <Icona nome="sirena" />
   </button>
 </template>
 
 <style scoped>
-/* Posizione e misure gemelle dei pulsanti di Calendario */
+/* Gemello delle icone di Calendario (stesse icone, misure e stati): cambia solo la posizione, al centro */
 .sirena {
   position: fixed;
-  /* Sotto la barra di stato, se l'app installata disegna anche lì */
   top: calc(0.5rem + env(safe-area-inset-top));
   left: 50%;
   transform: translateX(-50%);
   z-index: 200;
   display: inline-flex;
+  align-items: center;
   padding: 0.35rem;
   font-size: 1rem;
   border: none;
-  border-radius: 50%;
   background: transparent;
   color: white;
-  opacity: 0.55;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: opacity 0.2s ease, color 0.3s ease, filter 0.3s ease;
+  transition: color 0.3s ease, filter 0.3s ease;
+}
+
+/* Discreta finché non la si indica o non è accesa (come in Calendario: l'opacità sta sull'icona) */
+.sirena :deep(svg) {
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
+}
+
+.sirena.attiva :deep(svg) {
+  opacity: 1;
 }
 
 .sirena.attiva {
   color: #ff3b30;
-  opacity: 1;
   animation: sirena-glow 3.2s ease-in-out infinite;
 }
 
@@ -76,6 +75,10 @@ const etichetta = computed(() =>
 }
 
 .sirena:focus-visible {
+  outline: none;
+}
+
+.sirena:focus-visible :deep(svg) {
   opacity: 1;
 }
 
@@ -86,7 +89,7 @@ const etichetta = computed(() =>
 
 /* Solo con un vero puntatore: sui touch screen :hover resta attivo dopo il tocco */
 @media (hover: hover) and (pointer: fine) {
-  .sirena:hover {
+  .sirena:hover :deep(svg) {
     opacity: 1;
   }
 
@@ -97,6 +100,10 @@ const etichetta = computed(() =>
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .sirena :deep(svg) {
+    transition: none;
+  }
+
   .sirena.attiva {
     animation: none;
     filter: drop-shadow(0 0 6px rgba(255, 40, 30, 0.9));

@@ -10,6 +10,7 @@ import Petali from './components/Petali.vue';
 import SirenaButton from './components/SirenaButton.vue';
 import StatoAgitazione from './components/StatoAgitazione.vue';
 import Pillola from './components/Pillola.vue';
+import Icona from './components/Icona.vue';
 
 const CALENDARIO_URL = 'https://taffa-dev.github.io/Calendario/';
 
@@ -54,13 +55,7 @@ function getOggi() {
 
     <SirenaButton v-model="agitazione" />
     <a class="calendario-link" :href="CALENDARIO_URL" aria-label="Vai a Calendario">
-      <svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="3" y="4" width="18" height="18" rx="2" />
-        <line x1="16" y1="2" x2="16" y2="6" />
-        <line x1="8" y1="2" x2="8" y2="6" />
-        <line x1="3" y1="10" x2="21" y2="10" />
-      </svg>
+      <Icona nome="calendario" />
     </a>
 
     <Pillola :testo="pillola" :stagione="stagione.id" :agitazione="agitazione" />
@@ -92,28 +87,44 @@ function getOggi() {
   background: radial-gradient(ellipse at center, #3a0505 0%, #0d0000 100%);
 }
 
-/* Posizione e misure gemelle dei pulsanti di Calendario */
+/* Gemello delle icone di Calendario (stesse icone, misure, posizione e stati): se cambia qui, va cambiato anche là */
 .calendario-link {
   position: fixed;
   top: calc(0.5rem + env(safe-area-inset-top));
   right: calc(0.5rem + env(safe-area-inset-right));
   z-index: 200;
   display: inline-flex;
+  align-items: center;
   padding: 0.35rem;
   font-size: 1rem;
   color: white;
-  opacity: 0.55;
+  text-decoration: none;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Discreta finché non la si indica (come in Calendario: l'opacità sta sull'icona) */
+.calendario-link :deep(svg) {
+  opacity: 0.55;
   transition: opacity 0.2s ease;
 }
 
 .calendario-link:focus-visible {
+  outline: none;
+}
+
+.calendario-link:focus-visible :deep(svg) {
   opacity: 1;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .calendario-link:hover {
+  .calendario-link:hover :deep(svg) {
     opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calendario-link :deep(svg) {
+    transition: none;
   }
 }
 </style>
