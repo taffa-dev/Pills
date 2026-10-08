@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watchEffect } from 'vue';
+import { ref, computed, watchEffect, onMounted } from 'vue';
 import { getStagione, getNumeroDelGiorno, getPillole } from './stagioni.js';
 import programma from './programma.json';
 import Snow from './components/Snow.vue';
@@ -26,6 +26,12 @@ const nPetali = (numeroDelGiorno % 20) + 25;
 // Stato d'agitazione: sfondo rosso pulsante e pillole nella loro versione malvagia
 const agitazione = ref(false);
 
+// Entrata morbida alla prima comparsa: un velo del colore della pagina svanisce sopra sfondo ed
+// effetti (nessuno strato dei contenitori viene animato) e le icone affiorano per ultime.
+// Finita l'entrata la classe sparisce, così non riparte quando cambia lo stato d'agitazione.
+const entrata = ref(true);
+onMounted(() => setTimeout(() => { entrata.value = false; }, 1400));
+
 // Barre del telefono del colore dello sfondo: notte, Halloween, Pasqua o agitazione
 watchEffect(() => {
   const colore = agitazione.value ? '#0d0000' : { halloween: '#200900', pasqua: '#4d2140' }[stagione.id] ?? '#090a0f';
@@ -49,7 +55,7 @@ function getOggi() {
 </script>
 
 <template>
-  <main :class="['container', stagione.id, { agitazione }]">
+  <main :class="['container', stagione.id, { agitazione, entrata }]">
     <Waves v-if="stagione.id === 'estate'" :agitazione="agitazione" />
     <Snow v-if="stagione.id === 'natale'" :flakes="nFlakes" :agitazione="agitazione" />
     <template v-if="stagione.id === 'halloween'">
@@ -57,6 +63,7 @@ function getOggi() {
       <Pipistrelli :bats="nBats" :agitazione="agitazione" />
     </template>
     <Petali v-if="stagione.id === 'pasqua'" :petali="nPetali" :agitazione="agitazione" />
+    <div v-if="entrata" class="velo" aria-hidden="true"></div>
     <StatoAgitazione :attivo="agitazione" />
 
     <!-- In alto a sinistra, dove nel Calendario ci sono le azioni (lì condividi sta nel ventaglio) -->
@@ -143,9 +150,41 @@ function getOggi() {
   }
 }
 
+/* Entrata (z-index 99: sopra gli effetti, sotto la frase e i pulsanti) */
+.velo {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  pointer-events: none;
+  background: #090a0f;
+  animation: svela 0.9s ease-out both;
+}
+
+@keyframes svela {
+  to { opacity: 0; }
+}
+
+.entrata .icona,
+.entrata .sirena {
+  animation: affiora 0.6s ease-out 0.7s both;
+}
+
+@keyframes affiora {
+  from { opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .icona :deep(svg) {
     transition: none;
+  }
+
+  .velo {
+    animation-duration: 0.3s;
+  }
+
+  .entrata .icona,
+  .entrata .sirena {
+    animation: none;
   }
 }
 </style>

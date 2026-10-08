@@ -8,7 +8,7 @@ defineProps({
 
 <template>
   <!-- type="transition": la candela di Halloween è un'animazione infinita, Vue non deve aspettarla -->
-  <Transition name="pillola" mode="out-in" type="transition">
+  <Transition name="pillola" mode="out-in" type="transition" appear appear-from-class="pillola-appare-da" appear-active-class="pillola-appare">
     <!-- Le classi stanno sulla frase: quella in uscita sfuma senza cambiare aspetto -->
     <p :key="testo" :class="['pillola', stagione, { propaganda: agitazione }]">{{ testo }}</p>
   </Transition>
@@ -81,6 +81,26 @@ defineProps({
 .pillola-enter-from,
 .pillola-leave-to {
   opacity: 0;
+}
+
+/* Prima comparsa: sale di pochi pixel mettendosi a fuoco, dopo il velo (come l'entrata del Calendario) */
+.pillola-appare {
+  transition: opacity 0.7s, transform 0.7s, filter 0.7s;
+  transition-timing-function: cubic-bezier(0.05, 0.7, 0.1, 1);
+  transition-delay: 0.25s;
+}
+
+.pillola-appare-da {
+  opacity: 0;
+  transform: translateY(10px);
+  filter: blur(6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pillola-appare-da {
+    transform: none;
+    filter: none;
+  }
 }
 
 /* Tablet */
