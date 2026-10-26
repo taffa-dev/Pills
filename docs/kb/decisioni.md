@@ -16,3 +16,4 @@ Ultimo aggiornamento: 22/10/2026. Formato: data -> decisione -> motivo -> dettag
   - Pipistrelli: SVG (preferiti alla vecchia GIF di Giphy, rimossa).
   - Testo di Halloween bianco caldo/giallo chiaro con tremolio a candela (l'arancione si confondeva con la zucca).
   - Si può proporre di meglio (anche da spunti online), ma restando nell'idea esistente.
+- 26/10 -> **i temi stagionali di Calendario e Pills restano sempre sincronizzati** (periodi, colori, effetti; ogni modifica in entrambi) -> [grafica-e-effetti.md](grafica-e-effetti.md).

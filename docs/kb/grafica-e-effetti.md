@@ -20,3 +20,6 @@ Ogni effetto stagionale deve avere la sua variante per l'agitazione (prop `agita
 - Le variabili CSS non registrate non si animano: transizioni sui valori finali (`stop-color`, `fill`...).
 - Le animazioni SMIL non si fermano da CSS: per `prefers-reduced-motion` usare `svg.pauseAnimations()`.
 - Rispettare `prefers-reduced-motion` in ogni effetto.
+
+## Sincronia con Calendario (decisione dell'utente, 26/10/2026)
+I temi stagionali (Natale, Halloween, Pasqua, Estate) sono gli stessi in Calendario: stessi periodi, colori ed effetti. Cambiando una stagione qui, cambiarla anche in `../Calendario` (e viceversa).

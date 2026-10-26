@@ -10,6 +10,7 @@ Pubblicato su https://taffa-dev.github.io/Pills/ (repo `taffa-dev/Pills`, ramo `
 - **Le liste di pillole sono parallele** (stesso indice = stessa frase rovesciata): una pillola nuova va aggiunta insieme alla sua malvagia, stessa lunghezza. Non inventare pillole generali. Dettagli: [stagioni-e-pillole.md](docs/kb/stagioni-e-pillole.md).
 - **Il numero del giorno (hash della data) non va cambiato**; `src/programma.json` lo aggiorna solo `npm run programma`. Dettagli: [stagioni-e-pillole.md](docs/kb/stagioni-e-pillole.md).
 - **`src/mazzo.js` e `Icona.vue` sono identici in Calendario** (progetto gemello): se cambiano qui, vanno cambiati anche là. Dettagli: [grafica-e-effetti.md](docs/kb/grafica-e-effetti.md).
+- **I temi stagionali di Pills e Calendario restano sempre sincronizzati** (decisione dell'utente, 26/10/2026): stessi periodi, stessi colori e stessi effetti; ogni modifica a una stagione (date, tavolozza, animazioni) va fatta in entrambi i progetti (`../Calendario`). Dettagli: [grafica-e-effetti.md](docs/kb/grafica-e-effetti.md).
 - **Ogni effetto stagionale ha la variante per l'agitazione e rispetta `prefers-reduced-motion`**; decorazioni con `pointer-events: none`, niente risorse esterne. Dettagli: [grafica-e-effetti.md](docs/kb/grafica-e-effetti.md).
 - **Niente app installabile né service worker che salva copie.** Dettagli: [grafica-e-effetti.md](docs/kb/grafica-e-effetti.md).
 - **Scelte già fatte dall'utente: non rimetterle in discussione** (zucca, pipistrelli, colori di Halloween...): [decisioni.md](docs/kb/decisioni.md).
