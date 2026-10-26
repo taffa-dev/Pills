@@ -1,67 +1,41 @@
-# Pills
+# CLAUDE.md
 
-Una "pillola" (frase) al giorno, uguale per tutti, con effetti stagionali. Vue 3 + Vite, nessun backend.
-Pubblicato su https://taffa-dev.github.io/Pills/ (repo `taffa-dev/Pills`, ramo `master`).
-Il README resta volutamente scarno e misterioso: la documentazione tecnica sta qui.
+Indice per agenti. Dettagli non ovvi per tema: [docs/kb/INDICE.md](docs/kb/INDICE.md) (leggere solo il file del tema). Roadmap e cose da fare: [ROADMAP.md](ROADMAP.md). Sviluppo e deploy: [docs/kb/sviluppo-e-deploy.md](docs/kb/sviluppo-e-deploy.md).
 
-## Struttura
-- `src/stagioni.js` — stagione attiva, numero del giorno (hash della data: decide fiocchi e pipistrelli e le pillole dei giorni prima del programma; non va cambiato), scelta della pillola dal programma. Una nuova stagione = una voce in `STAGIONI`.
-- `src/pills/` — un file per stagione, ciascuno esporta `pillole` e `pilloleMalvagie`. **Tutte** le liste sono parallele (stesso indice = stessa frase rovesciata): la malvagia ricorda sempre la sua pillola. Mantenerle della stessa lunghezza; una pillola nuova va aggiunta insieme alla sua malvagia. Le malvagie sono la versione multinazionale/1984 della pillola (a Halloween anche più macabre).
-  Le generali vengono dai testi veri dell'azienda dell'utente: il centalogo (100 punti, 1992, rivisto nel 2020; il punto 100 è la prima pillola) e i manifesti 1992-1998. Pari pari quando il testo è già un motto, altrimenti ridotte alla frase centrale; resta il «Tu» maiuscolo dell'originale. Le 99 pillole generate da un'AI sono state tolte su richiesta: non rimetterne di inventate. Nel codice non compare il nome dell'azienda.
-- `src/mazzo.js` — mazzo a giri, **identico in Calendario**: se cambia in uno va copiato nell'altro.
-- `src/programma.json` + `scripts/programma.mjs` — programma delle pillole (sotto).
-- `src/components/` — `Pillola` (testo), `SirenaButton`, `StatoAgitazione` (luce rossa + motto "Lui vi osserva"), effetti stagionali `Waves`, `Snow`, `Pipistrelli`, `Zucca`, `Petali`.
-- `src/condividi.js` — pulsante "Condividi" in alto a sinistra (come nel Calendario): immagine 1080×1350 della pillola che si sta guardando, con sfondo e stile del testo della stagione (in agitazione la malvagia, rossa e da propaganda); menu di condivisione del sistema o, dove manca, download. Sfondi e stili sono copiati da `App.vue`/`Pillola.vue`: se cambiano là, vanno cambiati qui.
-- `src/riavvolgi.js` — inverte le animazioni CSS senza salti (Web Animations API: `playbackRate` negativo con rampa, `currentTime` portato avanti di molti cicli perché non si fermino all'inizio). Usato da neve e pipistrelli in agitazione.
+Pills: una "pillola" (frase) al giorno, uguale per tutti, con effetti stagionali. Vue 3 + Vite, nessun backend.
+Pubblicato su https://taffa-dev.github.io/Pills/ (repo `taffa-dev/Pills`, ramo `master`). Il README resta volutamente scarno e misterioso: la documentazione tecnica sta qui e nella KB. Lingua del progetto: italiano.
 
-| Stagione  | Periodo                              | Effetti                                  |
-|-----------|--------------------------------------|------------------------------------------|
-| Estate    | 1 - 31 agosto                        | Onde                                     |
-| Halloween | settimana (lun-dom) che contiene il 31/10 | Volto di zucca dietro lo sfondo (più alto in verticale, sfocatura proporzionale; fiamma SMIL che ondeggia, alone che segue il mouse), pipistrelli SVG (misura in `vmin`; ali interpolate con CSS `d`, fotogrammi come ripiego per Safari), testo color candela |
-| Pasqua    | dal lunedì santo al lunedì dell'Angelo | Tramonto rosato, petali di ciliegio (pochi grandi e sfocati davanti alla frase, "vicini alla telecamera"); in agitazione rosso sangue e risalgono. Pillole generali. L'utente ha scartato i rami di ciliegio disegnati |
-| Natale    | 8 dicembre - 6 gennaio               | Neve                                     |
+## Regole sempre valide
 
-## Programma delle pillole
-- Ogni lista (generali, Natale, Halloween) è un **mazzo a giri**: ogni pillola esce una volta per giro, in ordine casuale ma uguale per tutti, e nessuna torna prima che siano uscite tutte le altre; a cavallo tra due giri le ultime N/3 non tornano subito. Il mazzo di una lista avanza solo nei giorni in cui la lista è in uso (Natale da un anno all'altro, ecc.). La malvagia è quella con lo stesso indice.
-- `src/programma.json` (`{ "AAAA-MM-GG": chiave della pillola }`, chiave = hash del testo) è la memoria: i giorni passati che servono ai mazzi e 60 giorni avanti. Lo aggiorna **solo** `npm run programma` (in pratica la GitHub Action): passato e oggi non si toccano, il futuro si ricalcola con le liste attuali, quindi le pillole nuove entrano nel giro in corso. Correggere un refuso cambia la chiave: la pillola conta come nuova.
-- Oltre la fine del programma il sito prosegue con lo stesso mazzo (stesso risultato per tutti, anche se la Action si ferma); prima dell'inizio usa il vecchio sistema (`numero del giorno % lunghezza`). Programma vuoto: il primo giorno è quello del vecchio sistema, così alla prima pubblicazione nessuno vede cambiare la pillola.
-- `npm test` verifica: primo giorno = vecchio sistema, sito e generatore danno le stesse pillole, nessuna ripetizione nel giro, malvagia sempre parallela.
+- **Le liste di pillole sono parallele** (stesso indice = stessa frase rovesciata): una pillola nuova va aggiunta insieme alla sua malvagia, stessa lunghezza. Non inventare pillole generali. Dettagli: [stagioni-e-pillole.md](docs/kb/stagioni-e-pillole.md).
+- **Il numero del giorno (hash della data) non va cambiato**; `src/programma.json` lo aggiorna solo `npm run programma`. Dettagli: [stagioni-e-pillole.md](docs/kb/stagioni-e-pillole.md).
+- **`src/mazzo.js` e `Icona.vue` sono identici in Calendario** (progetto gemello): se cambiano qui, vanno cambiati anche là. Dettagli: [grafica-e-effetti.md](docs/kb/grafica-e-effetti.md).
+- **Ogni effetto stagionale ha la variante per l'agitazione e rispetta `prefers-reduced-motion`**; decorazioni con `pointer-events: none`, niente risorse esterne. Dettagli: [grafica-e-effetti.md](docs/kb/grafica-e-effetti.md).
+- **Niente app installabile né service worker che salva copie.** Dettagli: [grafica-e-effetti.md](docs/kb/grafica-e-effetti.md).
+- **Scelte già fatte dall'utente: non rimetterle in discussione** (zucca, pipistrelli, colori di Halloween...): [decisioni.md](docs/kb/decisioni.md).
+- **Non chiudere un `npm run dev` già aperto dall'utente** (porta 5173): usa un'altra porta. Dettagli: [sviluppo-e-deploy.md](docs/kb/sviluppo-e-deploy.md).
+- **Git**: dopo un push fare `git pull` (la Action aggiunge un commit); commit in italiano; commit e deploy solo quando l'utente lo chiede. Dettagli: [sviluppo-e-deploy.md](docs/kb/sviluppo-e-deploy.md).
 
-## Stato d'agitazione
-Pulsante sirena in alto al centro: sfondo rosso pulsante e pillole malvagie in stile propaganda (1984, multinazionale che sfrutta i dipendenti).
-Ogni effetto stagionale deve avere la sua variante per l'agitazione (prop `agitazione`): onde rosse, neve che diventa cenere e risale, zucca rossa e nitida con occhi cattivi, pipistrelli rossi che volano all'indietro.
+## Come lavorare con la KB (deciso dall'utente, 22/10/2026)
 
-## Scelte già fatte dall'utente (non rimetterle in discussione)
-- Halloween: sfondo marrone-arancio originale. Una scena "notte viola con luna, nebbia, ragno, fulmini" è stata provata e **scartata**.
-- Zucca: volto grande (occhi, naso, bocca dentata) come luce dietro un telo, sfocata e tenue; in agitazione rossa, nitida, con occhi "cattivi". Niente pupille.
-- Pipistrelli: SVG (preferiti alla vecchia GIF di Giphy, rimossa).
-- Testo di Halloween bianco caldo/giallo chiaro con tremolio a candela (l'arancione si confondeva con la zucca).
-- Si può proporre di meglio (anche da spunti online), ma restando nell'idea esistente.
+1. **Prima** di lavorare su un tema: leggi SOLO il suo file KB (scegli dall'INDICE).
+2. **Alla fine di ogni sviluppo** aggiorna da solo, **senza chiedere permesso**: il file KB del tema (cose non ovvie, avvertenze, numeri di tenuta con data); `docs/kb/decisioni.md` se c'è una decisione dell'utente; `ROADMAP.md` (voci chiuse, cose nuove).
+3. **Ogni cosa da sistemare o fare trovata lavorando, o detta dall'utente "da fare dopo", va subito in `ROADMAP.md`**, senza chiedere (procedura: `docs/kb/PROTOCOLLO.md`).
+4. I sub-agent riportano le cose imparate nel rapporto; le scrive chi li ha lanciati.
+5. Chiudi il messaggio finale con una riga: `KB: file toccati …`.
 
-## Vincoli tecnici
-- Progetto gemello di Calendario (`../Calendario`): il link al Calendario in alto a destra sta dove nel Calendario c'è il link a Pills (i quadratini delle altre azioni sono in alto a sinistra); le icone in alto sono identiche a quelle del Calendario: stesso `src/components/Icona.vue` (**file identico nei due progetti**: icone a contorno sottile stile Lucide, 1em × 1em, preferite dall'utente alle Font Awesome piene), stesse misure (`top: env(safe-area-inset-top)`, `padding: 0.875rem`, `font-size: 1.25rem`: icona di 20px in un'area da toccare di 48px, come da linee guida Material/Apple/WCAG) e stati (opacità 0.55 sull'`svg`, 1 con hover/focus e con la sirena accesa). Condividi sta in alto a sinistra (dove nel Calendario ci sono le azioni), la sirena al centro. Se cambiano qui, vanno cambiate anche là. I link tra i due si aprono nella stessa pagina.
-- **Niente app installabile** (scelta dell'utente: aprire il Calendario da Pills o viceversa apriva il browser interno dell'app). Niente manifest; `public/sw.js` resta solo per chi l'aveva installata: cancella le copie salvate e si disattiva; `main.js` disattiva i service worker rimasti. Non rimettere un service worker che salva copie. `viewport-fit=cover`: sfondo su `html`/`body` e `env(safe-area-inset-*)` per ogni elemento fisso ai bordi. `theme-color` segue lo sfondo (notte, Halloween, agitazione) da `App.vue`.
-- Livelli z-index: onde 1 · zucca 5 · luce sirena 20 · neve/pipistrelli/petali 30 · testi 100 · petali vicini 110 · pulsanti 200.
-- Le decorazioni non devono intercettare i tocchi (`pointer-events: none`) né usare risorse esterne (niente hotlink).
-- Effetti hover e tooltip solo dentro `@media (hover: hover) and (pointer: fine)`: sui touch screen `:hover` resta attivo dopo il tocco.
-- Un elemento dentro una `<Transition>` non deve avere animazioni infinite sulla radice: Vue ne aspetterebbe la durata (bug già incontrato due volte). Metterle su un figlio/pseudo-elemento, oppure `type="transition"` e animare solo proprietà diverse da `opacity`.
-- Le classi di stile della frase stanno sulla frase (non sul contenitore), così quella in uscita sfuma senza cambiare aspetto.
-- Le variabili CSS non registrate non si animano: transizioni sui valori finali (`stop-color`, `fill`...).
-- Le animazioni SMIL non si fermano da CSS: per `prefers-reduced-motion` usare `svg.pauseAnimations()`.
-- Rispettare `prefers-reduced-motion` in ogni effetto.
+## Ruoli dei modelli (regola dell'utente, 12/10/2026)
 
-## Sviluppo e verifica
-- `npm run dev`, poi `?data=AAAA-MM-GG` per simulare un giorno (solo in sviluppo, escluso dalla build). Halloween: `?data=2026-10-28`, Pasqua: `?data=2027-03-25`. Il pulsantino bianco in basso è il Vue DevTools, solo in dev.
-- L'utente spesso ha già un `npm run dev` aperto sulla 5173: non chiuderlo; usare un'altra porta.
-- Screenshot/verifiche: `playwright-core` installato in una cartella temporanea (mai nel progetto) con `executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe'`; `page.clock.setFixedTime` o `?data=` per le date. L'utente gradisce anteprime aperte a schermo intero (Chrome con `--start-fullscreen` e un `--user-data-dir` dedicato, altrimenti il Chrome già aperto ignora il flag).
-- Prova da telefono in LAN: il firewall di Windows blocca le porte in ingresso e non ci sono permessi di amministratore. La porta **3000** è già aperta (regola di Library Project): `npx vite --host --port 3000`, poi `http://192.168.188.20:3000/Pills/?data=...` (IP del PC in rete locale, verificarlo).
+Ricerca, analisi, specifiche e revisione con **Opus**; codice con **Sonnet via sub-agent**, a cui si passa una specifica completa (regole sopra + file KB del tema). Una richiesta di analisi o di roadmap non è una richiesta di codice. La regola sta anche nel CLAUDE.md globale dell'utente, ma le sessioni cloud non lo caricano: per questo è ripetuta qui.
 
-## Git e deploy
-- La pubblicazione la fa la GitHub Action `.github/workflows/pubblica.yml` a ogni push su `master`, ogni lunedì notte e a mano: test, `npm run programma` (con `TZ=Europe/Rome`), commit di `src/programma.json` se cambia, build, ramo `gh-pages`. Dopo un push quindi fare `git pull` prima di lavorare: la Action aggiunge il suo commit.
-- `npm run deploy` (`gh-pages -d dist` dal PC) resta come emergenza; usa il programma così com'è nel repo.
-- Git non ha un'identità configurata su questa macchina: firmare con `GIT_AUTHOR_NAME/EMAIL` e `GIT_COMMITTER_NAME/EMAIL` = `Claude` / `noreply@anthropic.com` (stessa convenzione dei commit precedenti), senza toccare la config globale.
-- `git fetch`/`push` a volte si bloccano: usare `GIT_TERMINAL_PROMPT=0` e `timeout`.
-- Messaggi di commit in italiano. Commit e deploy solo quando l'utente lo chiede.
+## Indice breve (versione completa: docs/kb/INDICE.md)
 
-## GitHub Actions: crediti finiti (21/10/2026)
-- I crediti Actions dell'account sono finiti e l'utente **non vuole spendere nulla**: i job dei repo privati si fermano in ~3 s ("recent account payments have failed or your spending limit needs to be increased"). Questo repo è pubblico, quindi i minuti sono gratuiti e `pubblica.yml` potrebbe funzionare, **ma non è verificato**: controllare l'esito della Action dopo un push. Se non gira, pubblicare dal PC (`npm run deploy`, come in emergenza).
+- `stagioni-e-pillole.md`: struttura del codice, stagioni, liste di pillole, mazzo a giri, programma
+- `grafica-e-effetti.md`: stato d'agitazione, vincoli tecnici (z-index, animazioni, icone, niente app installabile)
+- `sviluppo-e-deploy.md`: dev, verifica con screenshot, prova da telefono, GitHub Action, git
+- `decisioni.md`: decisioni dell'utente per data, con motivo
+- `PROTOCOLLO.md`: come si aggiorna e si pota la KB
+
+## Manutenzione di questo file
+
+CLAUDE.md resta < 6 KB (`wc -c CLAUDE.md`): i dettagli vanno nella KB. Ogni file KB < ~25 KB (se cresce, dividilo e aggiorna INDICE). Un fatto sta in UN solo file, gli altri lo linkano. Data (gg/mm/aaaa) su ogni decisione e su ogni numero di tenuta. Una voce falsa si corregge o si cancella, non si lascia.
