@@ -62,3 +62,6 @@ Ogni effetto stagionale deve avere la sua variante per l'agitazione (prop `agita
 - Git non ha un'identità configurata su questa macchina: firmare con `GIT_AUTHOR_NAME/EMAIL` e `GIT_COMMITTER_NAME/EMAIL` = `Claude` / `noreply@anthropic.com` (stessa convenzione dei commit precedenti), senza toccare la config globale.
 - `git fetch`/`push` a volte si bloccano: usare `GIT_TERMINAL_PROMPT=0` e `timeout`.
 - Messaggi di commit in italiano. Commit e deploy solo quando l'utente lo chiede.
+
+## GitHub Actions: crediti finiti (21/10/2026)
+- I crediti Actions dell'account sono finiti e l'utente **non vuole spendere nulla**: i job dei repo privati si fermano in ~3 s ("recent account payments have failed or your spending limit needs to be increased"). Questo repo è pubblico, quindi i minuti sono gratuiti e `pubblica.yml` potrebbe funzionare, **ma non è verificato**: controllare l'esito della Action dopo un push. Se non gira, pubblicare dal PC (`npm run deploy`, come in emergenza).
