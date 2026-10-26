@@ -23,3 +23,10 @@ Ogni effetto stagionale deve avere la sua variante per l'agitazione (prop `agita
 
 ## Sincronia con Calendario (decisione dell'utente, 26/10/2026)
 I temi stagionali (Natale, Halloween, Pasqua, Estate) sono gli stessi in Calendario: stessi periodi, colori ed effetti. Cambiando una stagione qui, cambiarla anche in `../Calendario` (e viceversa).
+
+## Pipistrelli: nuovo motore di volo (26/10/2026, portato dal Calendario)
+- `Pipistrelli.vue` è solo contenitore più taratura; il volo sta in `src/volo.js`, IDENTICO in Calendario (come `mazzo.js` e `Icona.vue`): ogni modifica va copiata nell'altro progetto, e i due `test/volo.test.mjs` restano identici. Provini approvati: `../Calendario/recupero-stagioni/pipistrelli-pills.html`.
+- `bats` è la popolazione costante (rimpiazzo quando uno esce); ognuno ha una fascia di 14vh tra 4 e 84vh. In Pills scala 0,5-1,5, vita 14-30 s (da `config.taratura`).
+- L'agitazione chiama `setIndietro`: il motore ha il suo verso del tempo (da +1 a -1 in 0,8 s) e non usa `riavvolgi.js` (che serve ancora a `Petali.vue` e `Snow.vue`). Rosso, drop-shadow e occhi accesi sono in `:deep()`.
+- Con `prefers-reduced-motion` i pipistrelli restano fermi dove sono. z-index 30, sotto la pillola (100).
+- Se all'utente sembrassero piccoli: ritoccare la larghezza base in `Pipistrelli.vue` (oggi `47 * (.6 + .001 * min(W, H))`, stessa media del vecchio).
